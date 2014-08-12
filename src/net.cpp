@@ -1839,9 +1839,10 @@ void StartNode(void* parg)
               printf("Error: could not start .onion seeding\n");
 
     // Map ports with UPnP (default)
+#ifdef USE_UPNP
     if (fUseUPnP)
         MapPort(fUseUPnP);
-
+#endif
     // Get addresses from IRC and advertise ours
     //if (!NewThread(ThreadIRCSeed, NULL))
     //    printf("Error: NewThread(ThreadIRCSeed) failed\n");
