@@ -18,7 +18,7 @@ win32 {
 
 TEMPLATE = app
 TARGET = "SonicScrewdriver Qt"
-VERSION = 1.0.0.0
+VERSION = 1.0.1.1
 INCLUDEPATH += src src/json src/qt src/tor
 QT += core gui network
 CONFIG += no_include_pwd
