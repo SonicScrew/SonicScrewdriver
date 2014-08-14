@@ -28,12 +28,6 @@ CONFIG += thread+
 
 macx:INCLUDEPATH += /usr/local/BerkeleyDB.4.8/include # /usr/local/include
 
-!macx:!win32 {
-   INCLUDEPATH += /usr/local/ssl/include /usr/local/BerkeleyDB.4.8/include
-   INCLUDEPATH += /usr/local/boost
-   INCLUDEPATH += /usr/local/include/event2
-}
-
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE \
            BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN \
            __NO_SYSTEM_INCLUDES
@@ -78,7 +72,7 @@ contains(RELEASE, 1) {
                     -isysroot /Developer/SDKs/MacOSX10.7.sdk
     !win32:!macx {
         # Linux: static link
-        # LIBS += -Bstatic
+        LIBS += -Wl,-Bstatic
     }
 }
 
@@ -100,11 +94,6 @@ contains(RELEASE, 1) {
       QMAKE_CXXFLAGS_RELEASE += -O0
 }
 
-!macx:!win32 {
-  LIBS += -L/usr/local/lib
-  LIBS += -L/usr/local/BerkeleyDB.4.8/lib
-}
-
 
 USE_QRCODE=1
 # use: qmake "USE_QRCODE=1"
@@ -122,7 +111,7 @@ contains(USE_QRCODE, 1) {
     message(Building without QRCode support)
 }
 
-USE_UPNP=-
+USE_UPNP=1
 # use: qmake "USE_UPNP=1" ( enabled by default; default)
 #  or: qmake "USE_UPNP=0" (disabled by default)
 #  or: qmake "USE_UPNP=-" (not supported)
@@ -175,9 +164,10 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
     # do not enable this on windows, as it will result in a non-working executable!
 }
 
-# !win32:!macx {
-#     QMAKE_LFLAGS *= -static
-# }
+!win32:!macx {
+    QMAKE_LFLAGS *= -static
+    QMAKE_LFLAGS *= -Wl
+}
 
 
 
@@ -203,7 +193,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/transactiontablemodel.h \
     src/qt/addresstablemodel.h \
     src/qt/optionsdialog.h \
-	src/qt/coincontroldialog.h \
+        src/qt/coincontroldialog.h \
     src/qt/coincontroltreewidget.h \
     src/qt/sendcoinsdialog.h \
     src/qt/addressbookpage.h \
@@ -217,7 +207,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/bignum.h \
     src/checkpoints.h \
     src/compat.h \
-	src/coincontrol.h \
+        src/coincontrol.h \
     src/sync.h \
     src/util.h \
     src/uint256.h \
@@ -284,7 +274,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/optionsdialog.cpp \
     src/qt/sendcoinsdialog.cpp \
-	src/qt/coincontroldialog.cpp \
+        src/qt/coincontroldialog.cpp \
     src/qt/coincontroltreewidget.cpp \
     src/qt/addressbookpage.cpp \
     src/qt/signverifymessagedialog.cpp \
@@ -430,7 +420,7 @@ RESOURCES += \
     src/qt/bitcoin.qrc
 
 FORMS += \
-	src/qt/forms/coincontroldialog.ui \
+        src/qt/forms/coincontroldialog.ui \
     src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/addressbookpage.ui \
     src/qt/forms/signverifymessagedialog.ui \
@@ -455,7 +445,7 @@ SOURCES += src/qt/test/test_main.cpp \
 HEADERS += src/qt/test/uritests.h
 DEPENDPATH += src/qt/test
 QT += testlib
-TARGET = sonic-qt_test
+TARGET = SonicScrewdriver-qt_test
 DEFINES += BITCOIN_QT_TEST
 }
 
@@ -513,7 +503,6 @@ isEmpty(BDB_INCLUDE_PATH) {
 
 isEmpty(BOOST_LIB_PATH) {
     macx:BOOST_LIB_PATH = /opt/local/lib
-    # !macx:!win32:BOOST_LIB_PATH = /usr/local/boost/staging/lib
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
@@ -567,23 +556,13 @@ win32:LIBS += -L"C:/$$MSYS/local/lib"
 # win32:LIBS += "C:/mingw64/x86_64-w64-mingw32/lib/libstdc++-6.dll"
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) \
         $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
-LIBS += -lssl -lcrypto -levent -lz
-macx:win32 {
-    LIBS += -ldb_cxx$$BDB_LIB_SUFFIX
-}
-!macx:!win32 {
-    LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
-    LIBS += /usr/lib/x86_64-linux-gnu/libboost_system.a
-    LIBS += /usr/lib/x86_64-linux-gnu/libboost_filesystem.a
-    LIBS += /usr/lib/x86_64-linux-gnu/libboost_thread.a
-    LIBS += /usr/lib/x86_64-linux-gnu/libboost_program_options.a
-}
+LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -levent -lz
 # -lgdi32 has to happen after -lcrypto (see  #681)
 win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
-win32:macx:LIBS += -lboost_system$$BOOST_LIB_SUFFIX \
-                   -lboost_filesystem$$BOOST_LIB_SUFFIX \
-                   -lboost_program_options$$BOOST_LIB_SUFFIX \
-                   -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
+LIBS += -lboost_system$$BOOST_LIB_SUFFIX \
+        -lboost_filesystem$$BOOST_LIB_SUFFIX \
+        -lboost_program_options$$BOOST_LIB_SUFFIX \
+        -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 
 win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
 
@@ -591,17 +570,10 @@ win32:contains(WINBITS, 64) {
        LIBS += -pthread
 }
 
-!win32:!macx {
-       LIBS += -L/usr/local/lib -L/usr/local/boost/stage -L/usr/local/ssl/lib
-
-       # LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
-       LIBS += -ldl
-}
-
 contains(RELEASE, 1) {
     !win32:!macx {
         # Linux: turn dynamic linking back on for c/c++ runtime libraries
-        LIBS += -Wl,-Bdynamic,-rpath,.
+        LIBS += -Wl,-Bdynamic
     }
 }
 
