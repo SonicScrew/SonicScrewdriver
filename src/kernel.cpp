@@ -349,15 +349,15 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
     CBigNum bnProduct = bnCoinDayWeight * bnTargetPerCoinDay * nTargetMultiplier;
     if (CBigNum(hashProofOfStake) > bnProduct)
         {
-                // if(fDebug)
-                // {
+                if(fDebug)
+                 {
                  printf(">>> bnCoinDayWeight = %s, bnTargetPerCoinDay=%s\n>>> too small:<bnProduct=%s>\n",
                         bnCoinDayWeight.ToString().c_str(),
                         bnTargetPerCoinDay.ToString().c_str(),
                         bnProduct.ToString().c_str());
                  printf(">>> CheckStakeKernelHash - hashProofOfStake too much\n");
                  printf(">>> hashProofOfStake too much: %s\n", CBigNum(hashProofOfStake).ToString().c_str());
-                // }
+                 }
         return false;
         }
 
