@@ -97,12 +97,12 @@ Value sendalert(const Array& params, bool fHelp)
     CKey key;
 
     alert.strStatusBar = params[0].get_str();
-    alert.nMinVer = params[2].get_int();
-    alert.nMaxVer = params[3].get_int();
-    alert.nPriority = params[4].get_int();
-    alert.nID = params[5].get_int();
+    alert.nMinVer = atoi(params[2].get_str());
+    alert.nMaxVer = atoi(params[3].get_str());
+    alert.nPriority = atoi(params[4].get_str());
+    alert.nID = atoi(params[5].get_str());
     if (params.size() > 6)
-        alert.nCancel = params[6].get_int();
+        alert.nCancel = atoi(params[6].get_str());
     alert.nVersion = PROTOCOL_VERSION;
     alert.nRelayUntil = GetAdjustedTime() + 365*24*60*60;
     alert.nExpiration = GetAdjustedTime() + 365*24*60*60;

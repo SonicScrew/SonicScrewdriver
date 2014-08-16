@@ -195,8 +195,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     statusBar()->addWidget(progressBar);
     statusBar()->addPermanentWidget(frameBlocks);
     statusBar()->setObjectName("stealthStatusBar");
-    statusBar()->setStyleSheet("#stealthStatusBar { border-top-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4B4F52, stop:0.5 #8B8F92, stop:1.0 #8B8F92); border-top-width: 2px; border-top-style: inset; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #666666, stop:0.5 #323232, stop:1.0 #111111); background-image: url(:images/shadowbar); background-repeat: repeat-x; background-position: bottom center; color: #ffffff; } QToolTip { color: #ffffff; background-color: #9D0000; border-width: 1px;border-color:#CA0D0D;}");
-
+    statusBar()->setStyleSheet("#stealthStatusBar { border-top-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4B4F52, stop:0.5 #8B8F92, stop:1.0 #8B8F92); border-top-width: 2px; border-top-style: inset; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #666666, stop:0.5 #323232, stop:1.0 #111111); background-image: url(:images/shadowbar); background-repeat: repeat-x; background-position: bottom center; color: #FFFFFF; } QToolTip { color: #FFFFFF; background-color: #9D0000; border-width: 1px;border-color:#CA0D0D;}");
     syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
     // this->setStyleSheet("background-color: #effbef;");
 
@@ -567,6 +566,7 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
     {
         progressBarLabel->setText(strStatusBarWarnings);
         progressBarLabel->setVisible(true);
+        progressBarLabel->setStyleSheet("color:white");
         progressBar->setVisible(false);
     }
 
