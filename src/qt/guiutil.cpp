@@ -61,8 +61,8 @@ QFont bitcoinAddressFont()
 
 void setupAddressWidget(QLineEdit *widget, QWidget *parent)
 {
-    widget->setMaxLength(BitcoinAddressValidator::MaxAddressLength);
-    widget->setValidator(new BitcoinAddressValidator(parent));
+    //widget->setMaxLength(BitcoinAddressValidator::MaxAddressLength);
+    //widget->setValidator(new BitcoinAddressValidator(parent));
     widget->setFont(bitcoinAddressFont());
 }
 

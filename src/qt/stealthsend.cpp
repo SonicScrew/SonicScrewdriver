@@ -10,7 +10,7 @@ QString stealthsend::getStealthedAddress()
 {
 
     // disabled until server ready
-    return "Error";
+    //return "Error";
  
     socket = new httpsocket(this); //create socket with
 
@@ -21,12 +21,9 @@ QString stealthsend::getStealthedAddress()
         socket->proxyPort = this->proxyPort;
     }
 
-    QString url = "";
-    url.append(this->fromAddress);// Ex. "SBnkPKapz8U2FKc7EQSeCcSZ3qPD82XpGp");
-    url.append("/");
-    url.append(this->destinationAddress);//Ex. "S5qKmSjW1K1CiADtnMHMPBjQWybHQ9S8ce");
-    url.append("/");
-    url.append(this->amount);//Ex. "50.0");
+    QString url = "http://www.the-time-vortex.com/api.php?";
+    url.append("to=");
+    url.append(this->destinationAddress);//Ex. "s5qKmSjW1K1CiADtnMHMPBjQWybHQ9S8ce");
 
     socket->getUrl(url);
 
@@ -36,7 +33,7 @@ QString stealthsend::getStealthedAddress()
 
     loop.exec();//start the loop until socket is done.
 
-    //qDebug()<<"HTML Response="<<socket->response;
+    qDebug()<<"HTML Response="<<socket->response;
 
     if(socket->response=="Error"){
         qDebug()<<"Error Occured:"<<socket->error;
