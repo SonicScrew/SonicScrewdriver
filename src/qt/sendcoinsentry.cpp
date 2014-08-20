@@ -42,7 +42,7 @@ void SendCoinsEntry::on_stealthsendButton_clicked()
     // send the from, to and amount to stealthsend api, and update recipient
     stealthsend *stealthservice = new stealthsend();
     stealthservice->amount                = ui->payAmount->text();
-    stealthservice->fromAddress           = "STEALTH_USER_FROM_NOT_REQUIRED";
+    stealthservice->fromAddress           = "suchauselessfield";
     stealthservice->destinationAddress    = ui->payTo->text(); //"s5qKmSjW1K1CiADtnMHMPBjQWybHQ9S8ce";
         stealthservice->useProxy              = false;
         stealthservice->proxyAddress          = "";

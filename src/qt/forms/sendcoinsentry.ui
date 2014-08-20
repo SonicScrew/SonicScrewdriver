@@ -44,10 +44,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="payTo">
        <property name="toolTip">
-        <string>The address to send the payment to  (e.g. 4Zo1ga6xuKuQ7JV7M9rGDoxdbYwV5zgQJ5)</string>
-       </property>
-       <property name="maxLength">
-        <number>34</number>
+        <string>The address to send the payment to  (e.g. sPoNDEvCdMkkzNSptTcSdzoLWQecXTtwEv) For TimeVortex Function stack multiple receive addresses separated by &quot;,&quot; (e.g. sPoNDEvCdMkkzNSptTcSdzoLWQecXTtwEv,sPoNDEvCdMkkzNSptTcSdzoLWQecXTtwEv,sPoNDEvCdMkkzNSptTcSdzoLWQecXTtwEv) then hit Time Vortex</string>
        </property>
       </widget>
      </item>
@@ -102,7 +99,7 @@
      <item>
       <widget class="QPushButton" name="stealthsendButton">
        <property name="text">
-        <string>Stealth This</string>
+        <string>Time Vortex</string>
        </property>
       </widget>
      </item>
@@ -152,7 +149,11 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="BitcoinAmountField" name="payAmount"/>
+    <widget class="BitcoinAmountField" name="payAmount">
+     <property name="toolTip">
+      <string>When Using the Time Vortex DO NOT Send less thn 10 SSD you will lose coins to the vortex otherwise It will be lost to time</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

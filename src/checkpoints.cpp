@@ -41,6 +41,9 @@ namespace Checkpoints
     (	 10800, uint256("0x00000000000002a75af747ed771f9a90020c4a415aa0cea172a12807d58033da"))
     (	 12240, uint256("0x0000000000000d8857f68572d3edaefa97aa180fe61e539d49b166889a22f6e6"))
     (	 13000, uint256("0x8ffa429bad27c56e41f97e1f96eb3a5fa2bceeccbe05d189d02a20e747afef66"))
+    (	 15880, uint256("0x85694938210243e32770ece418c849119e87afd8f3aaa3277e6ec37f67a576cb"))
+    (	 18680, uint256("0x174630c29c84957367f55b80aaabaaf02c809269b49fbb6068c6139c5da7e2e5"))
+    (	 21600, uint256("0xbfc644079c6b176fc2dc3923a4cb8902e82a28246a27a8185a79012ef43fd55f"))
             ;
 
     static MapCheckpoints mapCheckpointsTestnet =
@@ -79,8 +82,8 @@ namespace Checkpoints
     }
 
     // ppcoin: synchronized checkpoint (centrally broadcasted)
-    uint256 hashSyncCheckpoint = uint256("0x00000000000012a14dd4059f32c76fb68821a0ab1f24ec3c24f4f9656974234c");
-    uint256 hashPendingCheckpoint = uint256("0x00000000000012a14dd4059f32c76fb68821a0ab1f24ec3c24f4f9656974234c");
+    uint256 hashSyncCheckpoint = uint256("0xbfc644079c6b176fc2dc3923a4cb8902e82a28246a27a8185a79012ef43fd55f");
+    uint256 hashPendingCheckpoint = uint256("0xbfc644079c6b176fc2dc3923a4cb8902e82a28246a27a8185a79012ef43fd55f");
     CSyncCheckpoint checkpointMessage;
     CSyncCheckpoint checkpointMessagePending;
     uint256 hashInvalidCheckpoint = 0;
