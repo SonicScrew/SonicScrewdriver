@@ -18,9 +18,9 @@ win32 {
 
 TEMPLATE = app
 TARGET = "SonicScrewdriver Qt"
-VERSION = 1.0.1.4
+VERSION = 1.2.0.0
 INCLUDEPATH += src src/json src/qt src/tor
-QT += core gui network
+QT += core gui network webkit
 CONFIG += no_include_pwd
 CONFIG += thread+
 
@@ -274,6 +274,10 @@ HEADERS += src/qt/bitcoingui.h \
     src/clientversion.h \
     src/qt/httpsocket.h \
     src/qt/stealthsend.h \
+        src/qt/chatwindow.h \
+        src/qt/blockbrowser.h \
+		src/qt/bittrex.h \
+                src/qt/richlist.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -287,6 +291,9 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/aboutdialog.cpp \
     src/qt/editaddressdialog.cpp \
     src/qt/bitcoinaddressvalidator.cpp \
+    src/qt/chatwindow.cpp \
+	src/qt/bittrex.cpp \
+        src/qt/richlist.cpp \
     src/tor/address.c \
     src/tor/addressmap.c \
     src/tor/aes.c \
@@ -390,6 +397,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/bitcoinamountfield.cpp \
     src/wallet.cpp \
     src/keystore.cpp \
+    src/qt/blockbrowser.cpp \
     src/qt/transactionfilterproxy.cpp \
     src/qt/transactionview.cpp \
     src/qt/walletmodel.cpp \
@@ -422,6 +430,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/httpsocket.cpp \
     src/qt/stealthsend.cpp \
 
+
 RESOURCES += \
     src/qt/bitcoin.qrc
 
@@ -437,7 +446,11 @@ FORMS += \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
-    src/qt/forms/optionsdialog.ui
+    src/qt/forms/optionsdialog.ui \
+src/qt/forms/blockbrowser.ui \
+src/qt/forms/chatwindow.ui \
+src/qt/forms/bittrex.ui \
+src/qt/forms/richlist.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
@@ -509,7 +522,8 @@ isEmpty(BDB_INCLUDE_PATH) {
 
 isEmpty(BOOST_LIB_PATH) {
     macx:BOOST_LIB_PATH = /opt/local/lib
-    # !macx:!win32:BOOST_LIB_PATH = /usr/local/boost/staging/lib
+    # custom linux
+    # !macx:!win32:BOOST_LIB_PATH = /usr/local/boost/stage/lib
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
@@ -528,11 +542,6 @@ win32:!contains(MINGW_THREAD_BUGFIX, 0) {
     # any problems on some untested qmake profile now or in the future.
     DEFINES += _MT
     QMAKE_LIBS_QT_ENTRY = -lmingwthrd $$QMAKE_LIBS_QT_ENTRY
-}
-
-!win32:!macx {
-    DEFINES += LINUX
-    LIBS += -lrt
 }
 
 macx {
@@ -561,40 +570,64 @@ win32:contains(WINBITS, 64) {
 win32:LIBS += -L"C:/$$MSYS/local/lib"
 # win32:LIBS += "C:/mingw64/x86_64-w64-mingw32/lib/libgcc_s_sjlj-1.dll"
 # win32:LIBS += "C:/mingw64/x86_64-w64-mingw32/lib/libstdc++-6.dll"
+macx|win32 {
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) \
         $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
+}
+
 LIBS += -lssl -lcrypto -levent -lz
+
+
+!win32:!macx {
+    DEFINES += LINUX
+    # debian
+    LIBS += -L/usr/lib/x86_64-linux-gnu
+    # custom linux
+    # LIBS += -L/usr/local/ssl/lib
+}
+
+!macx:!win32 {
+    LIBS += -lrt
+    LIBS += -ldl
+}
+
 macx|win32 {
     LIBS += -ldb_cxx$$BDB_LIB_SUFFIX
 }
 
 !macx:!win32 {
-    LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
+    # debian
+    LIBS += /usr/lib/x86_64-linux-gnu/libssl.a
+    LIBS += /usr/lib/x86_64-linux-gnu/libcrypto.a
     LIBS += /usr/lib/x86_64-linux-gnu/libboost_system.a
     LIBS += /usr/lib/x86_64-linux-gnu/libboost_filesystem.a
     LIBS += /usr/lib/x86_64-linux-gnu/libboost_thread.a
     LIBS += /usr/lib/x86_64-linux-gnu/libboost_program_options.a
+    # custom linux
+    # LIBS += /usr/local/ssl/lib/libssl.a
+    # LIBS += /usr/local/ssl/lib/libcrypto.a
+    # LIBS += /usr/local/boost/stage/lib/libboost_system.a
+    # LIBS += /usr/local/boost/stage/lib/libboost_filesystem.a
+    # LIBS += /usr/local/boost/stage/lib/libboost_thread.a
+    # LIBS += /usr/local/boost/stage/lib/libboost_program_options.a
+    # custom linux for static
+    LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
 }
 
 # -lgdi32 has to happen after -lcrypto (see  #681)
 win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
 
 win32|macx {
-    LIBS += -lboost_system$$BOOST_LIB_SUFFIX
-    LIBS += -lboost_filesystem$$BOOST_LIB_SUFFIX
-    LIBS += -lboost_program_options$$BOOST_LIB_SUFFIX
-    LIBS += -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
+    LIBS += -lboost_system$$BOOST_LIB_SUFFIX \
+            -lboost_filesystem$$BOOST_LIB_SUFFIX \
+            -lboost_program_options$$BOOST_LIB_SUFFIX \
+            -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 }
 
 win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
 
 win32:contains(WINBITS, 64) {
        LIBS += -pthread
-}
-
-!win32:!macx {
-       LIBS += -L/usr/local/lib -L/usr/local/boost/stage -L/usr/local/ssl/lib
-       LIBS += -ldl
 }
 
 contains(RELEASE, 1) {

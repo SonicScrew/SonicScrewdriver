@@ -11,11 +11,16 @@ class ClientModel;
 class WalletModel;
 class TransactionView;
 class OverviewPage;
+class StatisticsPage;
+class BlockBrowser;
 class AddressBookPage;
 class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class Notificator;
 class RPCConsole;
+class ChatWindow;
+class BittrexWindow;
+class RichlistWindow;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -62,6 +67,12 @@ private:
     QStackedWidget *centralWidget;
 
     OverviewPage *overviewPage;
+    StatisticsPage *statisticsPage;
+        BlockBrowser *blockBrowser;
+     //   PoolBrowser *poolBrowser;
+        ChatWindow *chatWindow;
+        BittrexWindow *bittrexWindow;
+        RichlistWindow *richlistWindow;
     QWidget *transactionsPage;
     AddressBookPage *addressBookPage;
     AddressBookPage *receiveCoinsPage;
@@ -77,6 +88,11 @@ private:
 
     QMenuBar *appMenuBar;
     QAction *overviewAction;
+        QAction *statisticsAction;
+        QAction *blockAction;
+        QAction *chatAction;
+        QAction *bittrexAction;
+        QAction *richlistAction;
     QAction *historyAction;
     QAction *quitAction;
     QAction *sendCoinsAction;
@@ -142,6 +158,8 @@ public slots:
 private slots:
     /** Switch to overview (home) page */
     void gotoOverviewPage();
+    /** Switch to block explorer */
+    void gotoBlockBrowser();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to address book page */
@@ -150,6 +168,9 @@ private slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage();
+    void gotoChatPage();
+    void gotoBittrexPage();
+    void gotoRichlistPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");

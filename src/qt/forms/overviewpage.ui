@@ -371,10 +371,32 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QWebView" name="twitter">
+       <property name="minimumSize">
+        <size>
+         <width>300</width>
+         <height>500</height>
+        </size>
+       </property>
+       <property name="url">
+        <url>
+         <string>about:blank</string>
+        </url>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../bitcoin.qrc"/>
  </resources>
