@@ -5,7 +5,8 @@
 
 #include "alert.h"
 #include "checkpoints.h"
-#include "db.h"
+//#include "db.h"
+#include "txdb.h"
 #include "net.h"
 #include "init.h" 
 #include "ui_interface.h"
@@ -77,7 +78,8 @@ int64 nHPSTimerStart;
 // Settings
 int64 nTransactionFee = MIN_TX_FEE;
 
-
+// Used during database migration.
+bool fDisableSignatureChecking = false;
 //////////////////////////////////////////////////////////////////////////////
 //
 // dispatching functions
@@ -2008,7 +2010,7 @@ bool CBlock::AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos)
         if (!SetBestChain(txdb, pindexNew))
             return false;
 
-    txdb.Close();
+//    txdb.Close();
 
     if (pindexNew == pindexBest)
     {
@@ -2582,7 +2584,7 @@ bool LoadBlockIndex(bool fAllowNew)
     CTxDB txdb("cr");
     if (!txdb.LoadBlockIndex())
         return false;
-    txdb.Close();
+    //txdb.Close();
 
     //
     // Init with genesis block
@@ -2664,7 +2666,7 @@ bool LoadBlockIndex(bool fAllowNew)
             if ((!fTestNet) && !Checkpoints::ResetSyncCheckpoint())
                 return error("LoadBlockIndex() : failed to reset sync-checkpoint");
         }
-        txdb.Close();
+        //txdb.Close();
     }
 
     return true;
@@ -2746,7 +2748,7 @@ void PrintBlockTree()
     }
 }
 
-bool LoadExternalBlockFile(FILE* fileIn)
+bool LoadExternalBlockFile(FILE* fileIn, ExternalBlockFileProgress *progress)
 {
     int64 nStart = GetTimeMillis();
 
@@ -2794,6 +2796,8 @@ bool LoadExternalBlockFile(FILE* fileIn)
                         nLoaded++;
                         nPos += 4 + nSize;
                     }
+                    if (progress != NULL)
+                        (*progress)(4 + nSize);
                 }
             }
         }

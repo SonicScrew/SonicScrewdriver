@@ -62,5 +62,6 @@ const std::string CLIENT_NAME("DALEKS");
 #    endif
 #endif
 
+
 const std::string CLIENT_BUILD(BUILD_DESC CLIENT_VERSION_SUFFIX);
 const std::string CLIENT_DATE(BUILD_DATE);

@@ -116,6 +116,7 @@ T* alignup(T* p)
 #endif
 #else
 #define MAX_PATH            1024
+
 inline void Sleep(int64 n)
 {
     /*Boost has a year 2038 problem— if the request sleep time is past epoch+2^31 seconds the sleep returns instantly.
@@ -123,7 +124,6 @@ inline void Sleep(int64 n)
     boost::thread::sleep(boost::get_system_time() + boost::posix_time::milliseconds(n>315576000000LL?315576000000LL:n));
 }
 #endif
-
 /* This GNU C extension enables the compiler to check the format string against the parameters provided.
  * X is the number of the "format string" parameter, and Y is the number of the first variadic parameter.
  * Parameters count from 1.
