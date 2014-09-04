@@ -259,6 +259,7 @@ OBJS= \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
     obj/script.o \
+	obj/stealthaddress.o \
     obj/sync.o \
     obj/util.o \
     obj/wallet.o \

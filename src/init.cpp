@@ -29,6 +29,7 @@ using namespace boost;
 CWallet* pwalletMain;
 CClientUIInterface uiInterface;
 
+unsigned int nDerivationMethodIndex;
 //////////////////////////////////////////////////////////////////////////////
 //
 // Shutdown
@@ -348,7 +349,7 @@ bool AppInit2()
 #endif
 
     // ********************************************************* Step 2: parameter interactions
-
+    nDerivationMethodIndex = 0;
     fTestNet = GetBoolArg("-testnet");
     if (fTestNet) {
         SoftSetBoolArg("-irc", true);

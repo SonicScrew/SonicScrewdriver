@@ -18,7 +18,7 @@ win32 {
 
 TEMPLATE = app
 TARGET = "SonicScrewdriver Qt"
-VERSION = 1.2.0.0
+VERSION = 2.0.0.0
 INCLUDEPATH += src src/json src/qt src/tor
 QT += core gui network webkit
 CONFIG += no_include_pwd
@@ -218,6 +218,7 @@ QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra\
 # Input
 DEPENDPATH += src src/json src/qt
 HEADERS += src/qt/bitcoingui.h \
+    src/stealthaddress.h \
     src/qt/transactiontablemodel.h \
     src/qt/addresstablemodel.h \
     src/qt/optionsdialog.h \
@@ -305,6 +306,7 @@ HEADERS += src/qt/bitcoingui.h \
                 src/qt/richlist.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
+    src/stealthaddress.cpp \
     src/qt/transactiontablemodel.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/optionsdialog.cpp \

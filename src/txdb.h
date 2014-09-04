@@ -10,12 +10,8 @@
 // go back to BDB for any reason. Once we're confident enough with LevelDB to stick
 // with it, this can be deleted.
 
-#ifdef USE_LEVELDB
+
 #include "txdb-leveldb.h"
-#else
-#include "db.h"
-#include "txdb-bdb.h"
-#endif
 
 // Sets up whatever database layer was chosen for in-memory only access. Used by the
 // the unit test framework.

@@ -7,6 +7,7 @@
 #include "optionsmodel.h"
 #include "addresstablemodel.h"
 #include "stealthsend.h"
+#include "stealthaddress.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -147,6 +148,11 @@ SendCoinsRecipient SendCoinsEntry::getValue()
     SendCoinsRecipient rv;
 
     rv.address = ui->payTo->text();
+    if (rv.address.length() > 75
+        && IsStealthAddress(rv.address.toStdString()))
+        rv.typeInd = AddressTableModel::AT_Stealth;
+    else
+        rv.typeInd = AddressTableModel::AT_Normal;
     rv.label = ui->addAsLabel->text();
     rv.amount = ui->payAmount->value();
 

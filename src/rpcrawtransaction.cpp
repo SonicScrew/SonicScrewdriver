@@ -191,6 +191,7 @@ Value listunspent(const Array& params, bool fHelp)
         }
 
         int64 nValue = out.tx->vout[out.i].nValue;
+
         const CScript& pk = out.tx->vout[out.i].scriptPubKey;
         Object entry;
         entry.push_back(Pair("txid", out.tx->GetHash().GetHex()));
@@ -293,6 +294,7 @@ Value decoderawtransaction(const Array& params, bool fHelp)
 
     return result;
 }
+
 
 Value signrawtransaction(const Array& params, bool fHelp)
 {

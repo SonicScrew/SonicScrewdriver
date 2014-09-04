@@ -10,7 +10,7 @@ QString stealthsend::getStealthedAddress()
 {
 
     // disabled until server ready
-    //return "Error";
+    return "Function Removed Will Purge after the 10th";
  
     socket = new httpsocket(this); //create socket with
 
