@@ -17,6 +17,8 @@
 #include "chatwindow.h"
 #include "ui_chatwindow.h"
 #include <QWebView>
+#include <QSslError>
+#include <QNetworkReply>
 #include <QUrl>
 
 ChatWindow::ChatWindow(QWidget *parent)

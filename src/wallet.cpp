@@ -148,7 +148,7 @@ bool CWallet::Lock()
             sxAddr.spend_secret = sxAddrTemp.spend_secret;
         };
     }
-;
+    return LockKeyStore();
 
 }
 

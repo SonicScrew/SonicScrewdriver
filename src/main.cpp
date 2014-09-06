@@ -983,7 +983,7 @@ int generateMTRandom(unsigned int s, int range)
 // miner's coin base reward based on nHeight
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 {
-    int64_t nSubsidy = 0 * COIN;
+    int64 nSubsidy = 0 * COIN;
 
     if (nHeight == 0)
         nSubsidy = 16 * COIN; // genesis block coinbase is unspendable
@@ -2163,7 +2163,7 @@ bool CBlock::AcceptBlock()
     if (mi == mapBlockIndex.end())
         return DoS(10, error("AcceptBlock() : prev block not found"));
     CBlockIndex* pindexPrev = (*mi).second;
-    unsigned int nHeight = pindexPrev->nHeight+1;
+    int nHeight = pindexPrev->nHeight+1;
 
     if (IsProofOfWork() && (nHeight > CUTOFF_POW_BLOCK))
         return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
@@ -2301,7 +2301,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
     }
 
     CBlockLocator locator;
-    unsigned int nHeight = locator.GetBlockIndex()->nHeight;
+    int nHeight = locator.GetBlockIndex()->nHeight;
 
     if (pblock->IsProofOfWork() && (nHeight >= CUTOFF_POW_BLOCK)) {
         if (pfrom)
@@ -2333,7 +2333,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
         bnNewBlock.SetCompact(pblock->nBits);
         CBigNum bnRequired;
         const CBlockIndex* LastBlock = GetLastBlockIndex(pcheckpoint, true);
-        unsigned int nHeight = LastBlock->nHeight + 1;
+        //unsigned int nHeight = LastBlock->nHeight + 1;
         unsigned int nLastBits = LastBlock->nBits;
 
     if (pblock->IsProofOfStake()) {
@@ -2649,7 +2649,7 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1407449766;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 4204204204; // perfect nonce
+        block.nNonce   = 4204204204LL; // perfect nonce
 
         if (false && (block.GetHash() != hashGenesisBlock)) {
 
@@ -4469,7 +4469,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
         //
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
         CBlockIndex* pindexPrev = pindexBest;
-        int64_t nFees;
+        //int64_t nFees;
         auto_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake));
         if (!pblock.get())
             return;

@@ -17,6 +17,8 @@
 #include "richlist.h"
 #include "ui_richlist.h"
 #include <QWebView>
+#include <QSslError>
+#include <QNetworkReply>
 #include <QUrl>
 RichlistWindow::RichlistWindow(QWidget *parent)
     : QWidget(parent), ui(new Ui::richlistClass)

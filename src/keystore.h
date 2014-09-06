@@ -144,7 +144,8 @@ public:
         return result;
     }
 
-    bool Lock();
+
+    bool LockKeyStore();
 
     virtual bool AddCryptedKey(const CPubKey &vchPubKey, const std::vector<unsigned char> &vchCryptedSecret);
     bool AddKey(const CKey& key);

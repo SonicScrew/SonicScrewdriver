@@ -120,6 +120,9 @@ void EditAddressDialog::accept()
                 tr("The entered address \"%1\" is not a valid SonicScrewdriver address.").arg(ui->addressEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             return;
+        case AddressTableModel::NO_CHANGES:
+            // No changes were made during edit operation. Just reject.
+            break;
         case AddressTableModel::WALLET_UNLOCK_FAILURE:
             QMessageBox::critical(this, windowTitle(),
                 tr("Could not unlock wallet."),

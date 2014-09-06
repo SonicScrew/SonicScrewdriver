@@ -13,6 +13,9 @@
 #include <QAbstractItemDelegate>
 #include <QPainter>
 #include <QWebView>
+#include <QSslError>
+#include <QNetworkReply>
+#include <QSslConfiguration>
 #include <QUrl>
 
 #define DECORATION_SIZE 64

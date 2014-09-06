@@ -44,7 +44,7 @@ static const int64 MAX_MONEY = COIN * 23000000;  // 23.3 Million
 static const int64 CIRCULATION_MONEY = MAX_MONEY;
 static const double TAX_PERCENTAGE = 0.00; //no tax
 static const int64 MAX_STEALTH_PROOF_OF_STAKE = 0.20 * COIN;	// 20% annual interest
-static const unsigned int CUTOFF_POW_BLOCK = 21600;
+static const int CUTOFF_POW_BLOCK = 21600;
 static const unsigned int CUTOFF_POW_TIME = 1408524164;
 static const unsigned int TIME_VORTEX_KICK_IN = 1410307200;
 

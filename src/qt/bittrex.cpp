@@ -17,6 +17,8 @@
 #include "bittrex.h"
 #include "ui_bittrex.h"
 #include <QWebView>
+#include <QSslError>
+#include <QNetworkReply>
 #include <QUrl>
 
 BittrexWindow::BittrexWindow(QWidget *parent)
