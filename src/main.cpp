@@ -2930,8 +2930,11 @@ bool static AlreadyHave(CTxDB& txdb, const CInv& inv)
     {
     case MSG_TX:
         {
-        bool txInMap = false;
+		bool txInMap = false;
+		{
+		LOCK(mempool.cs);
         txInMap = (mempool.exists(inv.hash));
+		}
         return txInMap ||
                mapOrphanTransactions.count(inv.hash) ||
                txdb.ContainsTx(inv.hash);
@@ -3321,9 +3324,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
                     }
                 }
                 if (!pushed && inv.type == MSG_TX) {
-                    CTransaction tx;
-                    if (mempool.lookup(inv.hash, tx)) {
-                        //CTransaction tx = mempool.lookup(inv.hash);
+                    LOCK(mempool.cs);
+                    if (mempool.exists(inv.hash)) {
+                        CTransaction tx = mempool.lookup(inv.hash);
                         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                         ss.reserve(1000);
                         ss << tx;
