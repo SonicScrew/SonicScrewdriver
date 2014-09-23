@@ -18,19 +18,27 @@ win32 {
 
 TEMPLATE = app
 TARGET = "SonicScrewdriver Qt"
-VERSION = 2.0.1.0
+VERSION = 2.1.0.0
 INCLUDEPATH += src src/json src/qt src/tor
 QT += core gui network webkit
 CONFIG += no_include_pwd
 CONFIG += thread+
+
 !macx:CONFIG += static
 
 macx:INCLUDEPATH += /usr/local/BerkeleyDB.4.8/include # /usr/local/include
 
 !macx:!win32 {
-   INCLUDEPATH += /usr/local/ssl/include /usr/local/BerkeleyDB.4.8/include
-   INCLUDEPATH += /usr/local/boost
-   INCLUDEPATH += /usr/local/include/event2
+   # debian
+   INCLUDEPATH += /usr/include/x86_64-linux-gnu
+   # custom linux
+   # INCLUDEPATH += /usr/include
+   # INCLUDEPATH += /usr/local/include
+   # INCLUDEPATH += /usr/local/ssl/include
+   # INCLUDEPATH += /usr/local/boost
+   # INCLUDEPATH += /usr/local/include/event2
+   # custom linux for static
+   INCLUDEPATH += /usr/local/BerkeleyDB.4.8/include
 }
 
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE \
@@ -46,6 +54,7 @@ win32 {
 }
 win32:INCLUDEPATH += C:/$$MSYS/local/include
 win32:INCLUDEPATH += C:/$$MSYS/local/ssl/include
+win32:INCLUDEPATH += C:/$$MSYS/local
 
 win32:contains(WINBITS, 64) {
    INCLUDEPATH += C:/$$MSYS/local/BerkeleyDB.4.8/include
@@ -77,7 +86,7 @@ contains(RELEASE, 1) {
                     -isysroot /Developer/SDKs/MacOSX10.7.sdk
     !win32:!macx {
         # Linux: static link
-        # LIBS += -Bstatic
+        LIBS += -Bstatic
     }
 }
 
@@ -98,12 +107,6 @@ contains(RELEASE, 1) {
       # QMAKE_CXXFLAGS_RELEASE -= -O2
       QMAKE_CXXFLAGS_RELEASE += -O0
 }
-
-!macx:!win32 {
-  LIBS += -L/usr/local/lib
-  LIBS += -L/usr/local/BerkeleyDB.4.8/lib
-}
-
 
 USE_QRCODE=1
 # use: qmake "USE_QRCODE=1"
@@ -188,6 +191,7 @@ QMAKE_EXTRA_TARGETS += genleveldb
 # Gross ugly hack that depends on qmake internals, unfortunately there is no other way to do it.
 QMAKE_CLEAN += $$PWD/src/leveldb/libleveldb.a; cd $$PWD/src/leveldb ; $(MAKE) clean
 
+
 !win32 {
     # for extra security against potential buffer overflows
     QMAKE_CXXFLAGS += -fstack-protector
@@ -195,9 +199,6 @@ QMAKE_CLEAN += $$PWD/src/leveldb/libleveldb.a; cd $$PWD/src/leveldb ; $(MAKE) cl
     # do not enable this on windows, as it will result in a non-working executable!
 }
 
-# !win32:!macx {
-#     QMAKE_LFLAGS *= -static
-# }
 
 # regenerate src/build.h
 !windows|contains(USE_BUILD_INFO, 1) {
@@ -222,7 +223,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/transactiontablemodel.h \
     src/qt/addresstablemodel.h \
     src/qt/optionsdialog.h \
-        src/qt/coincontroldialog.h \
+    src/qt/coincontroldialog.h \
     src/qt/coincontroltreewidget.h \
     src/qt/sendcoinsdialog.h \
     src/qt/addressbookpage.h \
@@ -236,7 +237,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/bignum.h \
     src/checkpoints.h \
     src/compat.h \
-        src/coincontrol.h \
+    src/coincontrol.h \
     src/sync.h \
     src/util.h \
     src/uint256.h \
@@ -306,12 +307,11 @@ HEADERS += src/qt/bitcoingui.h \
                 src/qt/richlist.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
-    src/stealthaddress.cpp \
     src/qt/transactiontablemodel.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/optionsdialog.cpp \
     src/qt/sendcoinsdialog.cpp \
-        src/qt/coincontroldialog.cpp \
+    src/qt/coincontroldialog.cpp \
     src/qt/coincontroltreewidget.cpp \
     src/qt/addressbookpage.cpp \
     src/qt/signverifymessagedialog.cpp \
@@ -455,15 +455,15 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt_mine.cpp \
     src/pbkdf2.cpp \
     src/scrypt.cpp \
+    src/sonicvortex.cpp \
     src/qt/httpsocket.cpp \
     src/qt/stealthsend.cpp \
-
 
 RESOURCES += \
     src/qt/bitcoin.qrc
 
 FORMS += \
-        src/qt/forms/coincontroldialog.ui \
+    src/qt/forms/coincontroldialog.ui \
     src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/addressbookpage.ui \
     src/qt/forms/signverifymessagedialog.ui \
@@ -475,10 +475,10 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui \
-src/qt/forms/blockbrowser.ui \
-src/qt/forms/chatwindow.ui \
-src/qt/forms/bittrex.ui \
-src/qt/forms/richlist.ui
+    src/qt/forms/blockbrowser.ui \
+    src/qt/forms/chatwindow.ui \
+    src/qt/forms/bittrex.ui \
+    src/qt/forms/richlist.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
@@ -596,6 +596,7 @@ win32:contains(WINBITS, 64) {
     LIBS += -static
 }
 win32:LIBS += -L"C:/$$MSYS/local/lib"
+win32:LIBS += -L"C:/$$MSYS/local/cryptopp562"
 # win32:LIBS += "C:/mingw64/x86_64-w64-mingw32/lib/libgcc_s_sjlj-1.dll"
 # win32:LIBS += "C:/mingw64/x86_64-w64-mingw32/lib/libstdc++-6.dll"
 macx|win32 {
@@ -603,7 +604,7 @@ LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) \
         $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 }
 
-LIBS += -lssl -lcrypto -levent -lz
+LIBS += -lssl -lcrypto -levent -lz -lcryptopp
 
 
 !win32:!macx {
@@ -640,6 +641,7 @@ macx|win32 {
     # LIBS += /usr/local/boost/stage/lib/libboost_program_options.a
     # custom linux for static
     LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
+    LIBS += /usr/lib/libcryptopp.a
 }
 
 # -lgdi32 has to happen after -lcrypto (see  #681)
@@ -649,7 +651,7 @@ win32|macx {
     LIBS += -lboost_system$$BOOST_LIB_SUFFIX \
             -lboost_filesystem$$BOOST_LIB_SUFFIX \
             -lboost_program_options$$BOOST_LIB_SUFFIX \
-            -lboost_thread$$BOOST_THREAD_LIB_SUFFIX \
+            -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 }
 
 win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
@@ -658,11 +660,9 @@ win32:contains(WINBITS, 64) {
        LIBS += -pthread
 }
 
-contains(RELEASE, 1) {
-    !win32:!macx {
+!win32:!macx {
         # Linux: turn dynamic linking back on for c/c++ runtime libraries
         LIBS += -Wl,-Bdynamic,-rpath,.
-    }
 }
 
 system($$QMAKE_LRELEASE -silent $$_PRO_FILE_)
