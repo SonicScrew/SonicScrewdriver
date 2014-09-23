@@ -4,7 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <string>
-#include <stream>
+#include <sstream>
 
 #include <boost/assign/list_of.hpp>
 

@@ -29,9 +29,10 @@ using CryptoPP::GCM;
 // SHA256 Key Derivation
 void SHAKD(std::string twofa, std::string iv_str, byte key[KEY_SIZE]) {
 
+        SHA256 hash0;
         std::string unsalted;
         StringSource(iv_str, true,
-           new HashFilter(hash, new StringSink(unsalted)));
+           new HashFilter(hash0, new StringSink(unsalted)));
 
         std::string salt;
         StringSource bar(unsalted, true,

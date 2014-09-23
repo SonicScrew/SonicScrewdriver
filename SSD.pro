@@ -414,6 +414,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/db.cpp \
     src/txdb-leveldb.cpp \
     src/walletdb.cpp \
+    src/stealthaddress.cpp \
     src/qt/clientmodel.cpp \
     src/qt/guiutil.cpp \
     src/qt/transactionrecord.cpp \
