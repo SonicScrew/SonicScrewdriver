@@ -29,16 +29,15 @@ using CryptoPP::GCM;
 // SHA256 Key Derivation
 void SHAKD(std::string twofa, std::string iv_str, byte key[KEY_SIZE]) {
 
-        SHA256 hash0;
+        SHA256 hash;
         std::string unsalted;
         StringSource(iv_str, true,
-           new HashFilter(hash0, new StringSink(unsalted)));
+           new HashFilter(hash, new StringSink(unsalted)));
 
         std::string salt;
         StringSource bar(unsalted, true,
            new HexEncoder(new StringSink(salt)));
 
-        SHA256 hash;
         std::string string_key;
         StringSource foo(twofa + salt, true,
             new HashFilter(hash, new StringSink(string_key)));
@@ -73,7 +72,7 @@ bool decryptsonictxt(std::string msg64,
         std::string iv_str;
         iv_str = decoded.substr(0, IV_SIZE);
 
-	byte mykey[KEY_SIZE];
+        byte mykey[KEY_SIZE];
         SHAKD(twofa, iv_str, mykey);
 
         std::string ctxt = decoded.substr(IV_SIZE, decoded.size() - IV_SIZE);
@@ -115,6 +114,6 @@ bool decryptsonictxt(std::string msg64,
           return false;
         }
 
-	return true;
+    return true;
 }
 
