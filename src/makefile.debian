@@ -79,7 +79,7 @@ LIBS += \
  $(LIB_LINUX)/libssl.a \
  $(LIB_LINUX)/libcrypto.a \
  $(LIB_LINUX)/libz.a \
- $/usr/lib/libcryptopp.a
+ $(LIB_LINUX)/libcryptopp.a
 else
 TESTLIBS += \
  -lboost_unit_test_framework
