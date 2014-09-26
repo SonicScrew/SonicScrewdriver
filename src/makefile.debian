@@ -47,8 +47,8 @@ INCLUDEPATHS= \
  -I"$(CURDIR)/tor" \
  -I"/usr/include" \
  -I"$(INC_LINUX)" \
- -I"$(DEPSDIR)/BerkeleyDB.4.8/include"
- -I"$(CURDIR)/leveldb/include"
+ -I"$(DEPSDIR)/BerkeleyDB.4.8/include" \
+ -I"$(CURDIR)/leveldb/include" \
  -I"$(CURDIR)/leveldb/helpers"
 
 LIBPATHS= \
