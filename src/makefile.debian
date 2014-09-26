@@ -48,6 +48,8 @@ INCLUDEPATHS= \
  -I"/usr/include" \
  -I"$(INC_LINUX)" \
  -I"$(DEPSDIR)/BerkeleyDB.4.8/include"
+ -I"$(CURDIR)/leveldb/include"
+ -I"$(CURDIR)/leveldb/helpers"
 
 LIBPATHS= \
  -L"/usr/lib" \
