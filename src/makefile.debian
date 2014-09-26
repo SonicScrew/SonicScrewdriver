@@ -79,7 +79,7 @@ LIBS += \
  $(LIB_LINUX)/libssl.a \
  $(LIB_LINUX)/libcrypto.a \
  $(LIB_LINUX)/libz.a \
- $(LIB_LINUX)/libcryptopp.a \
+ /usr/lib/libcryptopp.a \
  $(CURDIR)/leveldb/libleveldb.a \
  $(CURDIR)/leveldb/libmemenv.a
 else
