@@ -205,18 +205,18 @@ OBJS= \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
     obj/script.o \
-    obj/stealthaddress.o \
     obj/sync.o \
     obj/util.o \
     obj/wallet.o \
     obj/walletdb.o \
     obj/noui.o \
-    obj/pbkdf2.o \
     obj/kernel.o \
+    obj/pbkdf2.o \
+    obj/scrypt.o \
+	obj/stealthaddress.o \
     obj/scrypt_mine.o \
     obj/scrypt-x86.o \
-    obj/scrypt-x86_64.o \
-    obj/sonicvortex.o
+    obj/scrypt-x86_64.o
 
 
 all: Sonicd
