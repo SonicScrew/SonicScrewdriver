@@ -81,7 +81,6 @@ LIBS += \
  $(LIB_LINUX)/libz.a \
  $/usr/lib/libcryptopp.a \
  $(CURDIR)/leveldb/libleveldb.a \
- 
  $(CURDIR)/leveldb/libmemenv.a
 else
 TESTLIBS += \
