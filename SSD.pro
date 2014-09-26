@@ -209,7 +209,9 @@ QMAKE_CLEAN += $$PWD/src/leveldb/libleveldb.a; cd $$PWD/src/leveldb ; $(MAKE) cl
     QMAKE_EXTRA_TARGETS += genbuild
     DEFINES += HAVE_BUILD_INFO
 }
-QMAKE_LFLAGS += -Wl,-enable-auto-import
+win32 {
+  QMAKE_LFLAGS += -Wl,-enable-auto-import
+}
 QMAKE_CXXFLAGS += -msse2
 QMAKE_CFLAGS += -msse2
 QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra\
@@ -301,10 +303,10 @@ HEADERS += src/qt/bitcoingui.h \
     src/clientversion.h \
     src/qt/httpsocket.h \
     src/qt/stealthsend.h \
-        src/qt/chatwindow.h \
-        src/qt/blockbrowser.h \
-		src/qt/bittrex.h \
-                src/qt/richlist.h
+    src/qt/chatwindow.h \
+    src/qt/blockbrowser.h \
+    src/qt/bittrex.h \
+    src/qt/richlist.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -319,8 +321,8 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/editaddressdialog.cpp \
     src/qt/bitcoinaddressvalidator.cpp \
     src/qt/chatwindow.cpp \
-	src/qt/bittrex.cpp \
-        src/qt/richlist.cpp \
+    src/qt/bittrex.cpp \
+    src/qt/richlist.cpp \
     src/tor/address.c \
     src/tor/addressmap.c \
     src/tor/aes.c \
