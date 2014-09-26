@@ -278,7 +278,6 @@ OBJS= \
     obj/scrypt-x86.o \
     obj/scrypt-x86_64.o \
     obj/sonicvortex.o \
-    obj/txdb-bdb.o \
     obj/txdb-leveldb.o 
 
 all: Sonicd
