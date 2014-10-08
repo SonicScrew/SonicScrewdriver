@@ -209,7 +209,6 @@ OBJS= \
     obj/circuitstats.o \
     obj/circuituse.o \
     obj/command.o \
-    obj/compat.o \
     obj/compat_libevent.o \
     obj/config.o \
     obj/config_codedigest.o \
