@@ -2,24 +2,114 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-USE_UPNP:=1
+#######################################################################
+#
+# INSTRUCTIONS TO BUILD ON UNIX
+#
+# If you have Debain, use makefile.debian. See instructions therein.
+# If you have Mint or Ubuntu, use makefile.ubuntu.
+#
+# There are lots of flavors of unix. They put packages in all
+# kinds of places. You will have to find where yours are.
+# If you build from scratch, most libraries will go into /usr/local.
+# An exception is crypto++, which installs by default to /usr/.
+#
+# First, install git and clone the repo:
+#
+#    sudo apt-get install git
+#    git clone https://github.com/SonicScrew/SonicScrewdriver.git
+#
+# As of Sonicd version 1.3.0.0, the Qt clients are built
+# against Berkeley DB (BDB) 4.8. So you should build BDB from the
+# archive at http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+# Install BDB to the default location (/usr/local/BerkeleyDB.4.8/).
+#
+# Make sure you have also installed the following packages with
+# linkable libraries, preferably using your system's package
+# manager. If you build from scratch, make sure to enable building
+# the static libraries when running configure.
+#
+#     OpenSSL: https://www.openssl.org/
+#     ZLib: http://www.zlib.net/
+#     Boost: http://www.boost.org/
+#     LibEvent: http://libevent.org/
+#     Crypto++: http://www.cryptopp.com/
+#
+# Once these packages are installed, you will have the correct
+# headers and static libraries.
+#
+# Then, you can build
+#
+#     make -f makefile.unix
+#
+#######################################################################
+
+
+# Build STATIC for this makefile (1=static, 0=not)
+STATIC=1
+
+DEPSDIR=/usr/local
+
+# ubuntu puts boost libs at /usr/lib/x86_64-linux-gnu
+LIB_BOOST="/usr/lib/x86_64-linux-gnu"
+
+# this combo works for mint and ubuntu
+INCLUDEPATHS= \
+ -I"$(CURDIR)" \
+ -I"$(CURDIR)/obj" \
+ -I"$(CURDIR)/tor" \
+ -I"$(CURDIR)/tor/adapter" \
+ -I"$(CURDIR)/tor/common" \
+ -I"$(CURDIR)/tor/ext" \
+ -I"$(CURDIR)/tor/ext/curve25519_donna" \
+ -I"$(CURDIR)/tor/or" \
+ -I"/usr/include" \
+ -I"$(CURDIR)/leveldb/include" \
+ -I"$(DEPSDIR)/include" \
+ -I"$(DEPSDIR)/ssl/include" \
+ -I"$(DEPSDIR)/include/boost" \
+ -I"$(DEPSDIR)/include/event2" \
+ -I"$(DEPSDIR)/BerkeleyDB.4.8/include" \
+ -I"$(CURDIR)/leveldb/helpers"
+
+LIBPATHS= \
+ -L"$(DEPSDIR)/lib" \
+ -L"$(DEPSDIR)/BerkeleyDB.4.8/lib" \
+ -L"$(DEPSDIR)/ssl/lib" 
+
+CFLAGS += $(INCLUDEPATHS)
+
+USE_UPNP:=-
 USE_IPV6:=1
-USE_LEVELDB:=1
 
 LINK:=$(CXX)
 
 DEFS=-DBOOST_SPIRIT_THREADSAFE
 
-DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/tor $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
-LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
-
-# libevent
-EVENTDIR = /usr/local
-DEFS += $(addprefix -I,$(EVENTDIR)/include)
-LIBS += -levent $(addprefix -L,$(EVENTDIR)/lib)
-
-
 TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
+
+
+ifeq ($(STATIC),1)
+TESTLIBS += \
+ $(DEPSDIR)/lib/libboost_unit_test_framework.a
+LIBS += \
+ $(DEPSDIR)/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a \
+ $(LIB_BOOST)/libboost_system.a \
+ $(LIB_BOOST)/libboost_filesystem.a \
+ $(LIB_BOOST)/libboost_program_options.a \
+ $(LIB_BOOST)/libboost_thread.a \
+ $(DEPSDIR)/ssl/lib/libssl.a \
+ $(DEPSDIR)/ssl/lib/libcrypto.a \
+ $(DEPSDIR)/lib/libz.a \
+ $(DEPSDIR)/lib/libevent.a \
+ /usr/lib/libcryptopp.a \
+ $(CURDIR)/leveldb/libleveldb.a \
+ $(CURDIR)/leveldb/libmemenv.a
+else
+TESTLIBS += \
+ -lboost_unit_test_framework
+endif
+
 
 LMODE = dynamic
 LMODE2 = dynamic
@@ -32,25 +122,21 @@ else
 	TESTDEFS += -DBOOST_TEST_DYN_LINK
 endif
 
-# for boost 1.37, add -mt to the boost libraries
+
 LIBS += \
  -Wl,-B$(LMODE) \
-   -l boost_system$(BOOST_LIB_SUFFIX) \
-   -l boost_filesystem$(BOOST_LIB_SUFFIX) \
-   -l boost_program_options$(BOOST_LIB_SUFFIX) \
-   -l boost_thread$(BOOST_LIB_SUFFIX) \
-   -l db_cxx$(BDB_LIB_SUFFIX) \
-   -l ssl \
-   -l event \
-   -l crypto
+   -lboost_system$(BOOST_LIB_SUFFIX) \
+   -lboost_filesystem$(BOOST_LIB_SUFFIX) \
+   -lboost_program_options$(BOOST_LIB_SUFFIX) \
+   -lboost_thread$(BOOST_LIB_SUFFIX) \
+   -ldb_cxx$(BDB_LIB_SUFFIX) \
+   -lssl \
+   -lcrypto \
+   -levent \
+   -lz \
+   -lcryptopp \
+   -lrt
 
-ifndef USE_UPNP
-	override USE_UPNP = -
-endif
-ifneq (${USE_UPNP}, -)
-	LIBS += -l miniupnpc
-	DEFS += -DUSE_UPNP=$(USE_UPNP)
-endif
 
 ifneq (${USE_IPV6}, -)
 	DEFS += -DUSE_IPV6=$(USE_IPV6)
@@ -58,9 +144,8 @@ endif
 
 LIBS+= \
  -Wl,-B$(LMODE2) \
-   -l z \
-   -l dl \
-   -l pthread
+   -ldl \
+   -lpthread
 
 
 # Hardening
@@ -205,36 +290,34 @@ OBJS= \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
     obj/script.o \
+    obj/stealthaddress.o \
     obj/sync.o \
     obj/util.o \
     obj/wallet.o \
     obj/walletdb.o \
     obj/noui.o \
-    obj/kernel.o \
     obj/pbkdf2.o \
-    obj/scrypt.o \
-	obj/stealthaddress.o \
+    obj/kernel.o \
     obj/scrypt_mine.o \
     obj/scrypt-x86.o \
-    obj/scrypt-x86_64.o
-
+    obj/scrypt-x86_64.o \
+    obj/sonicvortex.o \
+    obj/txdb-leveldb.o 
 
 all: Sonicd
 
 #
 # LevelDB support
 #
+MAKEOVERRIDES =
 LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
 DEFS += $(addprefix -I,$(CURDIR)/leveldb/include)
 DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
-OBJS += obj/txdb-leveldb.o
 leveldb/libleveldb.a:
-	@echo "Building LevelDB ..."; cd leveldb; make libleveldb.a libmemenv.a; cd ..;
-obj/txdb-leveldb.o: leveldb/libleveldb.a
+	@echo "Building LevelDB ..." && cd leveldb && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(xCXXFLAGS)" libleveldb.a libmemenv.a && cd ..
 
 
-
-test check: test_sonicscrewdriver FORCE
+test check: test_stealthcoin FORCE
 	./test_stealthcoin
 
 # auto-generated dependencies:
@@ -246,61 +329,90 @@ obj/build.h: FORCE
 version.cpp: obj/build.h
 DEFS += -DHAVE_BUILD_INFO
 
+
+obj/%.o: %.cpp
+	$(CXX) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+
+
+obj/%.o: %.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	  rm -f $(@:%.o=%.d)
+
+obj/%.o: tor/common/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+obj/%.o: tor/ext/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+obj/%.o: tor/ext/curve25519_donna/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+
+obj/%.o: tor/or/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+obj/stealth.o: tor/adapter/stealth.cpp
+	$(CXX) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+
+
 obj/scrypt-x86.o: scrypt-x86.S
 	$(CXX) -c $(xCXXFLAGS) -MMD -o $@ $<
 
 obj/scrypt-x86_64.o: scrypt-x86_64.S
 	$(CXX) -c $(xCXXFLAGS) -MMD -o $@ $<
 
-obj/%.o: %.cpp
-	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
-	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
-	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
-	  rm -f $(@:%.o=%.d)
-
-obj/%.o: %.c
-	$(CXX) -c $(xCXXFLAGS) -fpermissive -MMD -MF $(@:%.o=%.d) -o $@ $<
-	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
-	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
-	rm -f $(@:%.o=%.d)
-
-obj/%.o: tor/%.c
-	$(CC) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
-	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
-	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
-	rm -f $(@:%.o=%.d)
-
-obj/stealth.o: tor/stealth.cpp
-	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
-	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
-	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
-	rm -f $(@:%.o=%.d)
-
-Sonicd: $(OBJS:obj/%=obj/%) obj/stealth.o
-	$(LINK) $(xCXXFLAGS) -o $@ $^ $(xLDFLAGS) $(LIBS)
+Sonicd: leveldb/libleveldb.a \
+              $(OBJS:obj/%=obj/%) obj/stealth.o
+	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
 
 obj-test/%.o: test/%.cpp
-	$(CXX) -c $(TESTDEFS) $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	$(CXX) -c $(TESTDEFS) $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
 	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
 	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
 	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	  rm -f $(@:%.o=%.d)
 
 test_stealthcoin: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
-	$(LINK) $(xCXXFLAGS) -o $@ $(LIBPATHS) $^ -Wl,-B$(LMODE) -lboost_unit_test_framework $(xLDFLAGS) $(LIBS)
+	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS) $(TESTLIBS)
+
 
 clean:
-	-rm -f Sonicd test_sonicscrewdriver
+	-rm -f Sonicd test_stealthcoin
 	-rm -f obj/*.o
 	-rm -f obj-test/*.o
 	-rm -f obj/*.P
 	-rm -f obj-test/*.P
 	-rm -f obj/build.h
+	cd leveldb; make clean
 
 FORCE:

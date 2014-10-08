@@ -6,9 +6,6 @@
 #
 # INSTRUCTIONS TO BUILD ON DEBIAN (EASY!)
 #
-# You need to have the latest version of Berkeley DB 4.8 installed
-# at the default location (/usr/local/BerkeleyDB.4.8).
-#
 # Make sure you have also installed the
 # following packages installed via apt-get
 # 
@@ -17,10 +14,18 @@
 #     sudo apt-get install zlib1g-dev
 #     sudo apt-get install libboost-all-dev
 #     sudo apt-get install libevent-dev
-#     sudo apt-get install cryptopp
+#     sudo apt-get install libdb++-dev
 #
-# This will make sure you have the correct headers and will
-# put into the correct static libraries in the correct places
+# A problem exists with the debian library libcrypto++-dev.
+# You must build your own libcrypt++:
+#
+#     cd
+#     mkdir -p Installers/libcryptopp/cryptopp56
+#     cd Installers/libcryptopp/cryptopp56
+#     wget http://www.cryptopp.com/cryptopp562.zip
+#     unzip -a cryptopp562.zip
+#     make
+#     sudo make install
 #
 # Then, you can build
 #
@@ -29,7 +34,7 @@
 #######################################################################
 
 
-# Build STATIC for this makefile
+# Build STATIC for this makefile (1=static, 0=not)
 STATIC=1
 
 # Berkely DB
@@ -39,22 +44,27 @@ DEPSDIR=/usr/local
 INC_LINUX="/usr/include/x86_64-linux-gnu"
 # debian third-party libs
 LIB_LINUX="/usr/lib/x86_64-linux-gnu"
+# boost libraries
+LIB_BOOST="/usr/lib"
 
 
 INCLUDEPATHS= \
  -I"$(CURDIR)" \
  -I"$(CURDIR)/obj" \
  -I"$(CURDIR)/tor" \
+ -I"$(CURDIR)/tor/adapter" \
+ -I"$(CURDIR)/tor/common" \
+ -I"$(CURDIR)/tor/ext" \
+ -I"$(CURDIR)/tor/ext/curve25519_donna" \
+ -I"$(CURDIR)/tor/or" \
  -I"/usr/include" \
  -I"$(INC_LINUX)" \
- -I"$(DEPSDIR)/BerkeleyDB.4.8/include" \
  -I"$(CURDIR)/leveldb/include" \
  -I"$(CURDIR)/leveldb/helpers"
 
 LIBPATHS= \
  -L"/usr/lib" \
  -L"$(LIB_LINUX)" \
- -L"$(DEPSDIR)/BerkeleyDB.4.8/lib" \
 
 CFLAGS += $(INCLUDEPATHS)
 
@@ -67,21 +77,22 @@ DEFS=-DBOOST_SPIRIT_THREADSAFE
 
 TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
 
-ifdef STATIC
+ifeq ($(STATIC),1)
 TESTLIBS += \
  $(DEPSDIR)/lib/libboost_unit_test_framework.a
 LIBS += \
- $(DEPSDIR)/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a \
- $(LIB_LINUX)/libboost_system.a \
- $(LIB_LINUX)/libboost_filesystem.a \
- $(LIB_LINUX)/libboost_program_options.a \
- $(LIB_LINUX)/libboost_thread.a \
+ $(LIB_LINUX)/libdb_cxx.a \
+ $(LIB_BOOST)/libboost_system.a \
+ $(LIB_BOOST)/libboost_filesystem.a \
+ $(LIB_BOOST)/libboost_program_options.a \
+ $(LIB_BOOST)/libboost_thread.a \
  $(LIB_LINUX)/libssl.a \
  $(LIB_LINUX)/libcrypto.a \
  $(LIB_LINUX)/libz.a \
- /usr/lib/libcryptopp.a \
+ $(LIB_LINUX)/libevent.a \
  $(CURDIR)/leveldb/libleveldb.a \
- $(CURDIR)/leveldb/libmemenv.a
+ $(CURDIR)/leveldb/libmemenv.a \
+ /usr/lib/libcryptopp.a
 else
 TESTLIBS += \
  -lboost_unit_test_framework
@@ -111,7 +122,8 @@ LIBS += \
    -lcrypto \
    -levent \
    -lz \
-   -lcryptopp
+   -lcryptopp \
+   -lrt
 
 
 ifneq (${USE_IPV6}, -)
@@ -293,8 +305,8 @@ leveldb/libleveldb.a:
 	@echo "Building LevelDB ..." && cd leveldb && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(xCXXFLAGS)" libleveldb.a libmemenv.a && cd ..
 
 
-test check: test_sonic FORCE
-	./test_sonic
+test check: test_sonicd FORCE
+	./test_sonicd
 
 # auto-generated dependencies:
 -include obj/*.P
@@ -320,14 +332,36 @@ obj/%.o: %.c
 	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	  rm -f $(@:%.o=%.d)
 
-obj/%.o: tor/%.c
+obj/%.o: tor/common/%.c
 	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
 	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
 	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
             -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	rm -f $(@:%.o=%.d)
 
-obj/stealth.o: tor/stealth.cpp
+obj/%.o: tor/ext/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+obj/%.o: tor/ext/curve25519_donna/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+
+obj/%.o: tor/or/%.c
+	$(CC) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+            -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
+	rm -f $(@:%.o=%.d)
+
+obj/stealth.o: tor/adapter/stealth.cpp
 	$(CXX) -c $(CFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
 	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
 	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
@@ -342,7 +376,8 @@ obj/scrypt-x86.o: scrypt-x86.S
 obj/scrypt-x86_64.o: scrypt-x86_64.S
 	$(CXX) -c $(xCXXFLAGS) -MMD -o $@ $<
 
-Sonicd: $(OBJS:obj/%=obj/%) obj/stealth.o
+Sonicd: leveldb/libleveldb.a \
+              $(OBJS:obj/%=obj/%) obj/stealth.o
 	$(CXX) $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
@@ -359,11 +394,12 @@ test_sonicd: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
 
 
 clean:
-	-rm -f Sonicd test_sonic
+	-rm -f Sonicd testsonicd
 	-rm -f obj/*.o
 	-rm -f obj-test/*.o
 	-rm -f obj/*.P
 	-rm -f obj-test/*.P
 	-rm -f obj/build.h
+	cd leveldb; make clean
 
 FORCE:
