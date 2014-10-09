@@ -142,12 +142,12 @@ int main(int argc, char *argv[])
 
     // Application identification (must be set before OptionsModel is initialized,
     // as it is used to locate QSettings)
-    app.setOrganizationName("SonicScrewdriver");
-    app.setOrganizationDomain("SonicScrewdriver.su");
+    app.setOrganizationName("SonicCoin");
+    app.setOrganizationDomain("SonicCoin.su");
     if(GetBoolArg("-testnet")) // Separate UI settings for testnet
-        app.setApplicationName("SonicScrewdriver-Qt-testnet");
+        app.setApplicationName("SonicCoin-Qt-testnet");
     else
-        app.setApplicationName("SonicScrewdriver-Qt");
+        app.setApplicationName("SonicCoin-Qt");
 
     // ... then GUI settings:
     OptionsModel optionsModel;

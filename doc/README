@@ -1,11 +1,14 @@
 
-Copyright (c) 2014 SonicScrewdriver Developers
+Copyright (c) 2014 SonicCoin Developers
 
 
-SonicScrewdriver 1.0.0.0 BETA
+SonicCoin 1.0.0.0 BETA
 
-Copyright (c) 2014 SonicScrewdriver Developers
+Copyright (c) 2014 SonicCoin Developers
+Copyright (c) 2014 ShadowCoin Developers
+Copyright (c) 2014 BlackCoin Developers
 Copyright (c) 2014 StealthCoin Developers
+Copyright (c) 2013-2014 The Razor developers
 Copyright (c) 2013-2014 CloakCoin Developers
 Copyright (c) 2013 NovaCoin Developers
 Copyright (c) 2011-2012 Bitcoin Developers
@@ -18,7 +21,7 @@ cryptographic software written by Eric Young (eay@cryptsoft.com).
 
 Intro
 -----
-SonicScrewdriver is a free open source project derived from NovaCoin, with
+SonicCoin is a free open source project derived from NovaCoin, with
 the goal of providing a long-term energy-efficient scrypt-based crypto-currency.
 Built on the foundation of Bitcoin and NovaCoin, innovations such as proof-of-stake
 help further advance the field of crypto-currency.
@@ -32,21 +35,21 @@ Unpack the files into a directory and run:
 The software automatically finds other nodes to connect to.  You can
 enable Universal Plug and Play (UPnP) with your router/firewall
 or forward port 36502 (TCP) to your computer so you can receive
-incoming connections.  SonicScrewdriver works without incoming connections,
-but allowing incoming connections helps the SonicScrewdriver network.
+incoming connections.  Soniccoin works without incoming connections,
+but allowing incoming connections helps the SonicCoin network.
 
 
 Upgrade
 -------
 All you existing coins/transactions should be intact with the upgrade.
 To upgrade first backup wallet
-SonicScrewdriver backupwallet <destination_backup_file>
-Then shutdown SonicScrewdriver by
-SonicScrewdriver stop
-Start up the new SonicScrewdriver.
+Sonicd backupwallet <destination_backup_file>
+Then shutdown SonicCoin by
+Sonicd stop
+Start up the new SonicCoin.
 
 
-See the documentation/wiki at the SonicScrewdriver site:
-  http://SonicScrewdriver.com/
+See the documentation/wiki at the SonicCoin site:
+  http://www.Sonic-Coin.com/
 for help and more information.
 

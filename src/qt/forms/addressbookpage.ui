@@ -20,7 +20,7 @@
       <string notr="true">#labelExplanation { color: #464747; }</string>
      </property>
      <property name="text">
-      <string>These are your SonicScrewdriver addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</string>
+      <string>These are your SonicCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

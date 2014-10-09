@@ -1,4 +1,5 @@
-/* Copyright (c) 2014, StealthCoin/StealthSend Developers */
+/* Copyright (c) 2014, StealthCoin/StealthSend Developers
+   Copyright (c) 2014 The Razor developers
 /* See LICENSE for licensing information */
 
 /**
