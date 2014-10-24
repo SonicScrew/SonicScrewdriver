@@ -25,6 +25,8 @@ BittrexWindow::BittrexWindow(QWidget *parent)
     : QWidget(parent), ui(new Ui::bittrexClass)
 {
     ui->setupUi(this);
+    connect( ui->bittrex, SIGNAL(clicked()), this, SLOT(bittrexLoad()));
+    connect( ui->poloniex, SIGNAL(clicked()), this, SLOT(poloniexLoad()));
     connect( ui->webView->page()->networkAccessManager(),
                  SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> & )),
                  this,
@@ -55,7 +57,17 @@ void BittrexWindow::sslErrorHandler(QNetworkReply *reply, const QList<QSslError>
     reply->ignoreSslErrors();
 }
 
+void BittrexWindow::bittrexLoad()
+{
+ui->webView->load(QUrl("https://www.bittrex.com"));
+ui->webView->show();
+}
 
+void BittrexWindow::poloniexLoad()
+{
+ui->webView->load(QUrl("https://www.poloniex.com"));
+ui->webView->show();
+}
 BittrexWindow::~BittrexWindow()
 {
     delete ui;

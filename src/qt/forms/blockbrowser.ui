@@ -34,6 +34,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">color: white;</string>
+  </property>
   <layout class="QGridLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetMaximumSize</enum>
@@ -68,6 +74,9 @@
           <font>
            <family>Open Sans,sans-serif</family>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: white;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;Block Explorer &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -120,6 +129,9 @@
        </item>
        <item row="12" column="1">
         <widget class="QPushButton" name="txButton">
+         <property name="styleSheet">
+          <string notr="true">color: black;</string>
+         </property>
          <property name="text">
           <string>Decode Transaction</string>
          </property>
@@ -202,6 +214,9 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">color: black;</string>
+         </property>
          <property name="maximum">
           <number>99999999</number>
          </property>
@@ -223,6 +238,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QPushButton" name="blockButton">
+         <property name="styleSheet">
+          <string notr="true">color: black;</string>
+         </property>
          <property name="text">
           <string>Jump to Block</string>
          </property>
@@ -367,6 +385,9 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: black;</string>
          </property>
          <property name="inputMask">
           <string comment="Transaction id" extracomment="Transaction id"/>

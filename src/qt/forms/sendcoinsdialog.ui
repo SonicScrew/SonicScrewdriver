@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>Send Coins</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
    <property name="bottomMargin">
     <number>8</number>
@@ -626,7 +632,7 @@
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>156</height>
+        <height>172</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -716,7 +722,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">#label { color: #464747; }</string>
+          <string notr="true">#label { color: white; }</string>
          </property>
          <property name="text">
           <string>Balance:</string>
@@ -735,7 +741,7 @@
           <cursorShape>IBeamCursor</cursorShape>
          </property>
          <property name="styleSheet">
-          <string notr="true">#label { color: #464747; }</string>
+          <string notr="true">color:white</string>
          </property>
          <property name="text">
           <string>123.456 XST</string>

@@ -25,6 +25,11 @@ ChatWindow::ChatWindow(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatWindowClass)
 {
     ui->setupUi(this);
+        connect(ui->reload, SIGNAL(clicked()), this, SLOT(reload()));
+        connect(ui->twitter, SIGNAL(clicked()), this, SLOT(twitter()));
+        connect(ui->site, SIGNAL(clicked()), this, SLOT(website()));
+        connect(ui->cap, SIGNAL(clicked()), this, SLOT(cap()));
+        connect(ui->bitchcoin, SIGNAL(clicked()), this, SLOT(bitch()));
     QString url = "http://webchat.freenode.net/?channels=#sonicscrewdriver";
 
     QSslConfiguration sslCfg = QSslConfiguration::defaultConfiguration();
@@ -55,6 +60,32 @@ void ChatWindow::sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & 
       qDebug() << "ssl error: " << err;
 
     reply->ignoreSslErrors();
+}
+
+void ChatWindow::reload()
+{
+    QString url = "http://webchat.freenode.net/?channels=#sonicscrewdriver";
+     ui->webView->load(QNetworkRequest(url));
+}
+
+void ChatWindow::cap()
+{
+    QDesktopServices::openUrl(QUrl("http://www.coinmarketcap.com/currencies/sonicscrewdriver/"));
+}
+
+void ChatWindow::twitter()
+{
+    QDesktopServices::openUrl(QUrl("https://www.twitter.com/soniccoin"));
+}
+
+void ChatWindow::website()
+{
+    QDesktopServices::openUrl(QUrl("http://www.sonic-coin.com"));
+}
+
+void ChatWindow::bitch()
+{
+    QDesktopServices::openUrl(QUrl("https://bitcointalk.org/index.php?topic=755180.new#new"));
 }
 
 ChatWindow::~ChatWindow()

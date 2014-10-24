@@ -24,7 +24,7 @@ RichlistWindow::RichlistWindow(QWidget *parent)
     : QWidget(parent), ui(new Ui::richlistClass)
 {
     ui->setupUi(this);
-
+    connect( ui->refresh, SIGNAL(clicked()), this, SLOT(reloadRich()));
     connect( ui->webView->page()->networkAccessManager(),
                  SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> & )),
                  this,
@@ -56,6 +56,10 @@ void RichlistWindow::sslErrorHandler(QNetworkReply *reply, const QList<QSslError
     reply->ignoreSslErrors();
 }
 
+void RichlistWindow::reloadRich()
+{
+    ui->webView->load(QUrl("http://the-time-vortex.com/table.html"));
+}
 
 RichlistWindow::~RichlistWindow()
 {

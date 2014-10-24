@@ -106,6 +106,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     filter(0)
 {
     ui->setupUi(this);
+    connect( ui->reload, SIGNAL(clicked()), this, SLOT(reloadTwitter()));
     connect( ui->twitter->page()->networkAccessManager(),
                  SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> & )),
                  this,
@@ -146,6 +147,10 @@ void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 OverviewPage::~OverviewPage()
 {
     delete ui;
+}
+void OverviewPage::reloadTwitter()
+{
+    ui->twitter->load(QUrl("http://www.the-time-vortex.com/"));
 }
 
 void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance)

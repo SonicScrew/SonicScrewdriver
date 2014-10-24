@@ -84,7 +84,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 {
     setMinimumSize(820, 560);
     setWindowTitle(tr("SonicCoin") + " - " + tr("Wallet"));
-    qApp->setStyleSheet("QMainWindow { background-image:url(:images/bkg);font-family:'Open Sans,sans-serif'; } #frame { } QToolBar QLabel { padding-top:15px;padding-bottom:10px;margin:0px; } #spacer { background:rgb(0,0,0);border:none; } #toolbar2 { border:none;width:10px; background-color:#000000; } #toolbar { border:none;height:100%;padding-top:20px; background: rgb(0,0,0); text-align: left; color: white;min-width:200px;max-width:200px;} QToolBar QToolButton:hover {background-color:qlineargradient(x1: 0, y1: 0, x2: 2, y2: 2,stop: 0 rgb(255,153,0), stop: 1 rgb(0,0,0),stop: 2 rgb(255,153,0));} QToolBar QToolButton { font-family:Century Gothic;padding-left:20px;padding-right:200px;padding-top:10px;padding-bottom:10px; width:100%; color: white; text-align: left; background-color: rgb(0,0,0) } #labelMiningIcon { padding-left:5px;font-family:Century Gothic;width:100%;font-size:10px;text-align:center;color:white; } QMenu { background: rgb(0,0,0); color:white; padding-bottom:10px; } QMenu::item { color:white; background-color: transparent; } QMenu::item:selected { background-color:qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,stop: 0 rgb(255,153,0), stop: 1 rgb(0,0,0)); } QMenuBar { background: rgb(0,0,0); color:white; } QMenuBar::item { font-size:12px;padding-bottom:12px;padding-top:12px;padding-left:15px;padding-right:15px;color:white; background-color: transparent; } QMenuBar::item:selected { background-color:qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,stop: 0 rgb(0,0,0), stop: 1 rgb(255,153,0)); }");
+    qApp->setStyleSheet("QMainWindow { background-image:url(:images/bkg);font-family:'Open Sans,sans-serif'; } #frame { } QToolBar QLabel { padding-top:15px;padding-bottom:10px;margin:0px; } #spacer { background:rgb(0,0,0);border:none; } #toolbar2 { border:none;width:10px; background-color:#000000; } #toolbar { border:none;height:100%;padding-top:20px; background: rgb(0,0,0); text-align: left; color: white;min-width:200px;max-width:200px;} QToolBar QToolButton:hover {background-color:qlineargradient(x1: 0, y1: 0, x2: 2, y2: 2,stop: 0 rgb(254,200,0), stop: 1 rgb(0,0,0),stop: 2 rgb(251,185,0));} QToolBar QToolButton { font-family:Century Gothic;padding-left:20px;padding-right:200px;padding-top:10px;padding-bottom:10px; width:100%; color: white; text-align: left; background-color: rgb(0,0,0) } #labelMiningIcon { padding-left:5px;font-family:Century Gothic;width:100%;font-size:10px;text-align:center;color:white; } QMenu { background: rgb(0,0,0); color:white; padding-bottom:10px; } QMenu::item { color:white; background-color: transparent; } QMenu::item:selected { background-color:qlineargradient(x1: 0, y1: 0, x2: 2, y2: 2,stop: 0 rgb(254,200,0), stop: 1 rgb(0,0,0),stop: 2 rgb(251,185,0)); } QMenuBar { background: rgb(0,0,0); color:white; } QMenuBar::item { font-size:12px;padding-bottom:12px;padding-top:12px;padding-left:15px;padding-right:15px;color:white; background-color: transparent; } QMenuBar::item:selected { background-color:qlineargradient(x1: 0, y1: 0, x2: 2, y2: 2,stop: 0 rgb(254,200,0), stop: 1 rgb(0,0,0),stop: 2 rgb(251,185,0)); }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
@@ -95,8 +95,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Accept D&D of URIs
     setAcceptDrops(true);
 
-    setObjectName("stealthWallet");
-    setStyleSheet("#stealthWallet { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1.0 #fefefe); } QToolTip { color: #cecece; background-color: #333333;  border:0px;} ");
 
     // Create actions for the toolbar, menu bar and tray/dock icon
     createActions();
@@ -294,8 +292,8 @@ void BitcoinGUI::createActions()
     chatAction->setCheckable(true);
     tabGroup->addAction(chatAction);
 
-    bittrexAction  = new QAction(QIcon(":/icons/bittrex"),tr("&Bittrex"), this);
-    bittrexAction->setToolTip(tr("Bittrex Exchange"));
+    bittrexAction  = new QAction(QIcon(":/icons/exchange"),tr("&Exchanges"), this);
+    bittrexAction->setToolTip(tr("Exchanges"));
     bittrexAction->setCheckable(true);
     tabGroup->addAction(bittrexAction);
 
@@ -329,7 +327,7 @@ void BitcoinGUI::createActions()
     blockAction->setCheckable(true);
     tabGroup->addAction(blockAction);
 
-    richlistAction  = new QAction(QIcon(":/icons/block"),tr("&Rich List"), this);
+    richlistAction  = new QAction(QIcon(":/icons/rich"),tr("&Rich List"), this);
     richlistAction->setToolTip(tr("Richlist Updates every 6 minutes"));
     richlistAction->setCheckable(true);
     tabGroup->addAction(richlistAction);

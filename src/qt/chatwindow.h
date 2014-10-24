@@ -46,6 +46,13 @@ private:
 
 private slots:
     void sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & errors);
+    void twitter();
+    void website();
+    void cap();
+    void reload();
+    void bitch();
+
+
 };
 
 #endif // CHATWINDOW_H

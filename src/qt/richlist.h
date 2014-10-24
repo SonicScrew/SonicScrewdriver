@@ -45,6 +45,7 @@ private:
     ClientModel *model;
 
 private slots:
+    void reloadRich();
     void sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & errors);
 };
 

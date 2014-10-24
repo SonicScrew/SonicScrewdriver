@@ -44,12 +44,16 @@
         <file alias="social">res/icons/social.png</file>
         <file alias="block">res/icons/block.png</file>
         <file alias="bittrex">res/icons/logo-bittrex.png</file>
+        <file alias="exchange">res/icons/exchange.png</file>
+        <file alias="polo">res/icons/Poloniex-logo-800px.png</file>
+        <file alias="rich">res/icons/rich.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash.png</file>
         <file alias="backg">res/images/wallet.png</file>
         <file alias="shadowbar">res/images/shadow9202.png</file>
+        <file alias="bkg">res/images/bkg.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner">res/movies/update_spinner.mng</file>

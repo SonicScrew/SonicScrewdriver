@@ -46,6 +46,7 @@ private:
     TransactionFilterProxy *filter;
 
 private slots:
+    void reloadTwitter();
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
     void sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & errors);

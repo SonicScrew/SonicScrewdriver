@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>455</height>
+    <height>667</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#OverviewPage { color: #464747; }</string>
+   <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
    <item>
@@ -37,7 +37,7 @@
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Wallet</string>
@@ -89,7 +89,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Balance:</string>
@@ -111,7 +111,7 @@
              <string>Your current balance</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string notr="true">0 XST</string>
@@ -124,7 +124,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Stake:</string>
@@ -146,7 +146,7 @@
              <string>Total of coins that was staked, and do not yet count toward the current balance</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string notr="true">0 XST</string>
@@ -159,7 +159,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Unconfirmed:</string>
@@ -181,7 +181,7 @@
              <string>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string notr="true">0 XST</string>
@@ -194,7 +194,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="labelImmatureText">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Immature:</string>
@@ -213,7 +213,7 @@
              <string>Mined balance that has not yet matured</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string notr="true">0 XST</string>
@@ -226,7 +226,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_2">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>Number of transactions:</string>
@@ -239,7 +239,7 @@
              <string>Total number of transactions in wallet</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string notr="true">0</string>
@@ -264,25 +264,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../bitcoin.qrc">:/images/backg</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="margin">
-        <number>-2</number>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -298,7 +279,7 @@
           <item>
            <widget class="QLabel" name="label_4">
             <property name="styleSheet">
-             <string notr="true">color: #464747;</string>
+             <string notr="true">color: white;</string>
             </property>
             <property name="text">
              <string>&lt;b&gt;Recent transactions&lt;/b&gt;</string>
@@ -372,6 +353,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="reload">
+       <property name="text">
+        <string>Refresh Twitter</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QWebView" name="twitter">
        <property name="minimumSize">
         <size>
@@ -397,8 +385,6 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../bitcoin.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -45,6 +45,8 @@ private:
     ClientModel *model;
 
 private slots:
+    void bittrexLoad();
+    void poloniexLoad();
     void sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & errors);
 };
 
