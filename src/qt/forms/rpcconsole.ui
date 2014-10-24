@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SonicScrewdriver - Debug window</string>
+   <string>Sonic - Debug window</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -42,7 +42,7 @@
           </font>
          </property>
          <property name="text">
-          <string>SonicScrewdriver Core</string>
+          <string>Sonic Core</string>
          </property>
         </widget>
        </item>
@@ -328,7 +328,7 @@
        <item row="15" column="0">
         <widget class="QPushButton" name="openDebugLogfileButton">
          <property name="toolTip">
-          <string>Open the SonicScrewdriver debug log file from the current data directory. This can take a few seconds for large log files.</string>
+          <string>Open the Sonic debug log file from the current data directory. This can take a few seconds for large log files.</string>
          </property>
          <property name="text">
           <string>&amp;Open</string>
@@ -354,7 +354,7 @@
        <item row="17" column="0">
         <widget class="QPushButton" name="showCLOptionsButton">
          <property name="toolTip">
-          <string>Show the SonicScrewdriver-Qt help message to get a list with possible SonicScrewdriver command-line options.</string>
+          <string>Show the Sonic-Qt help message to get a list with possible Sonic command-line options.</string>
          </property>
          <property name="text">
           <string>&amp;Show</string>

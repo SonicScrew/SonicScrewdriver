@@ -38,7 +38,7 @@
        </property>
        <property name="url">
         <url>
-         <string>https://kiwiirc.com/client/irc.freenode.net/#sonicscrewdriver</string>
+         <string>https://kiwiirc.com/client/irc.freenode.net/#soniccoin</string>
         </url>
        </property>
        <property name="renderHints">

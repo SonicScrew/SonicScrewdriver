@@ -30,7 +30,7 @@ ChatWindow::ChatWindow(QWidget *parent)
         connect(ui->site, SIGNAL(clicked()), this, SLOT(website()));
         connect(ui->cap, SIGNAL(clicked()), this, SLOT(cap()));
         connect(ui->bitchcoin, SIGNAL(clicked()), this, SLOT(bitch()));
-    QString url = "http://webchat.freenode.net/?channels=#sonicscrewdriver";
+    QString url = "http://webchat.freenode.net/?channels=#soniccoin";
 
     QSslConfiguration sslCfg = QSslConfiguration::defaultConfiguration();
     QList<QSslCertificate> ca_list = sslCfg.caCertificates();
@@ -64,7 +64,7 @@ void ChatWindow::sslErrorHandler(QNetworkReply *reply, const QList<QSslError> & 
 
 void ChatWindow::reload()
 {
-    QString url = "http://webchat.freenode.net/?channels=#sonicscrewdriver";
+    QString url = "http://webchat.freenode.net/?channels=#soniccoin";
      ui->webView->load(QNetworkRequest(url));
 }
 
