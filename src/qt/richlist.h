@@ -17,7 +17,7 @@
 #ifndef RICHLIST_H
 #define RICHLIST_H
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QtNetwork>
 #include "clientmodel.h"
 

@@ -18,13 +18,15 @@ win32 {
 
 TEMPLATE = app
 TARGET = "Sonic Qt"
-VERSION = 2.2.0.0
+VERSION = 2.4.0.0
 INCLUDEPATH += src src/json src/qt src/tor
 INCLUDEPATH += src/tor/adapter src/tor/common src/tor/ext
 INCLUDEPATH += src/tor/ext/curve25519_donna src/tor/or
 QT += core gui network webkit
 CONFIG += no_include_pwd
 CONFIG += thread+
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += webkitwidgets
 
 !macx:CONFIG += static
 
@@ -656,7 +658,7 @@ macx|win32 {
     # LIBS += /usr/local/boost/stage/lib/libboost_thread.a
     # LIBS += /usr/local/boost/stage/lib/libboost_program_options.a
     # custom linux for static
-    LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
+    LIBS += /usr/lib/x86_64-linux-gnu/libdb_cxx-5.3.a
     LIBS += /usr/lib/libcryptopp.a
 }
 

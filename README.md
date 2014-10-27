@@ -41,6 +41,7 @@ Unix: ~/.SonicScrewdriver
 Abnormal Dependencies
 =====================
 Most daemons and qt's use the same dependencies, SSD is different in so much as it uses TOR, and this requires libevent. you can either build with mingw for windows, make/make install with linux, apt-get install libevent-dev with ubuntu or build from source with OSX.
+You will also need crypto++-dev, check the headers of the makefile.* for how to obtain these dependencies.
    
 
 

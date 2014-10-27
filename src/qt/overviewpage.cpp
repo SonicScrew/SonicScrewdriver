@@ -51,9 +51,12 @@ public:
         bool confirmed = index.data(TransactionTableModel::ConfirmedRole).toBool();
         QVariant value = index.data(Qt::ForegroundRole);
         QColor foreground = option.palette.color(QPalette::Text);
-        if(qVariantCanConvert<QColor>(value))
+        //if(qVariantCanConvert<QColor>(value))
+        if(value.canConvert<QBrush>())
         {
-            foreground = qvariant_cast<QColor>(value);
+            //foreground = qvariant_cast<QColor>(value);
+            QBrush brush = qvariant_cast<QBrush>(value);
+            foreground = brush.color();
         }
 
         painter->setPen(foreground);
