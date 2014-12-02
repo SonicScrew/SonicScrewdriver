@@ -17,7 +17,7 @@
 #ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
-#include <QtWidgets>
+#include <QtGui>
 #include <QtNetwork>
 #include "clientmodel.h"
 

@@ -17,7 +17,7 @@
 #ifndef BITTREX_H
 #define BITTREX_H
 
-#include <QtWidgets>
+#include <QtGui>
 #include <QtNetwork>
 #include "clientmodel.h"
 

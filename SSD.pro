@@ -26,7 +26,7 @@ QT += core gui network webkit
 CONFIG += no_include_pwd
 CONFIG += thread+
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += webkitwidgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += webkit widgets
 
 !macx:CONFIG += static
 
