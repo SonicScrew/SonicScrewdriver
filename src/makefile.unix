@@ -209,6 +209,7 @@ OBJS= \
     obj/circuitstats.o \
     obj/circuituse.o \
     obj/command.o \
+    obj/tor_compat.o \
     obj/compat_libevent.o \
     obj/config.o \
     obj/config_codedigest.o \
@@ -220,6 +221,7 @@ OBJS= \
     obj/control.o \
     obj/cpuworker.o \
     obj/crypto.o \
+    obj/csiphash.o \
     obj/crypto_curve25519.o \
     obj/crypto_format.o \
     obj/curve25519-donna.o \
@@ -265,8 +267,10 @@ OBJS= \
     obj/tor_util.o \
     obj/torgzip.o \
     obj/tortls.o \
+    obj/tor_main.o \
     obj/transports.o \
     obj/util_codedigest.o \
+    obj/util_process.o \
     obj/alert.o \
     obj/version.o \
     obj/checkpoints.o \
@@ -289,7 +293,6 @@ OBJS= \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
     obj/script.o \
-    obj/stealthaddress.o \
     obj/sync.o \
     obj/util.o \
     obj/wallet.o \
@@ -301,7 +304,8 @@ OBJS= \
     obj/scrypt-x86.o \
     obj/scrypt-x86_64.o \
     obj/sonicvortex.o \
-    obj/txdb-leveldb.o 
+    obj/stealthaddress.o \
+    obj/txdb-leveldb.o  
 
 all: Sonicd
 
