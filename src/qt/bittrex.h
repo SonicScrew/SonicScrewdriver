@@ -19,6 +19,7 @@
 
 #include <QtGui>
 #include <QtNetwork>
+#include <QtWidgets>
 #include "clientmodel.h"
 
 

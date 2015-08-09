@@ -86,6 +86,7 @@ private slots:
     void headerSectionClicked(int);
     void buttonBoxClicked(QAbstractButton*);
     void buttonSelectAllClicked();
+    void buttonSelect670Clicked();
     void customSelectCoins();
     //void updateLabelLocked();
 };

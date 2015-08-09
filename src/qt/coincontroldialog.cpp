@@ -95,8 +95,11 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
     connect(ui->treeWidget, SIGNAL(itemChanged( QTreeWidgetItem*, int)), this, SLOT(viewItemChanged( QTreeWidgetItem*, int)));
 
     // click on header
+#if QT_VERSION < 0x050000
     ui->treeWidget->header()->setClickable(true);
-    //ui->treeWidget->header()->setSectionsClickable(true); QT5
+#else
+    ui->treeWidget->header()->setSectionsClickable(true);
+#endif
     connect(ui->treeWidget->header(), SIGNAL(sectionClicked(int)), this, SLOT(headerSectionClicked(int)));
 
     // ok button
@@ -104,6 +107,7 @@ CoinControlDialog::CoinControlDialog(QWidget *parent) :
 
     // (un)select all
     connect(ui->pushButtonSelectAll, SIGNAL(clicked()), this, SLOT(buttonSelectAllClicked()));
+    connect(ui->pushButtonSelect670, SIGNAL(clicked()), this, SLOT(buttonSelect670Clicked()));
 
     // custom Coin Control Selection Button (select less than) via presstab https://github.com/presstab/HyperStake/commit/3d79f41be356ede7829d6884216ce317f3b61893
     connect(ui->pushButtonCustomCC, SIGNAL(clicked()), this, SLOT(customSelectCoins()));
@@ -217,6 +221,34 @@ void CoinControlDialog::customSelectCoins() //via presstab https://github.com/pr
     }
     CoinControlDialog::updateLabels(model, this);
     updateView();
+}
+
+// select 670 (as many as you can fit into one CTransaction)
+void CoinControlDialog::buttonSelect670Clicked()
+{
+    Qt::CheckState state = Qt::Unchecked;
+    ui->treeWidget->setEnabled(false);
+    for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++) {
+            if (ui->treeWidget->topLevelItem(i)->checkState(COLUMN_CHECKBOX) != state) {
+                ui->treeWidget->topLevelItem(i)->setCheckState(COLUMN_CHECKBOX, state);
+            }
+    }
+
+    state = Qt::Checked;
+    QTreeWidgetItemIterator it(ui->treeWidget, QTreeWidgetItemIterator::NoChildren);
+    int n = 0;
+    while (*it) {
+        if ((*it)->parent()->isExpanded()) {
+             (*it)->setCheckState(COLUMN_CHECKBOX, state);
+             n += 1;
+             if (n >= 670) {
+                  break;
+             }
+        }
+        ++it;
+    }
+    ui->treeWidget->setEnabled(true);
+    CoinControlDialog::updateLabels(model, this);
 }
 
 // context menu
