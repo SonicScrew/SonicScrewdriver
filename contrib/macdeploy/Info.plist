@@ -9,16 +9,16 @@
         <key>CFBundlePackageType</key>
         <string>APPL</string>
         <key>CFBundleGetInfoString</key>
-        <string>SonicScrewdriver [SSD] Tor Anon 2.0.1.0</string>
+        <string>SonicCoin [SSD] Tor Anon 2.2.0.0</string>
         <key>CFBundleExecutable</key>
-        <string>SonicScrewdriver Qt</string>
+        <string>Sonic Qt</string>
         <key>CFBundleIdentifier</key>
-        <string>com.ssd.sonicscrewdriver</string>
+        <string>com.ssd.soniccoin</string>
         <key>CFBundleShortVersionString</key>
-        <string>2.0.1.0</string>
+        <string>2.2.0.0</string>
         <key>CFBundleSignature</key>
-        <string>SonC</string>
+        <string>SonCoin</string>
         <key>CFBundleVersion</key>
-        <string>2.0.1.0</string>
+        <string>2.2.0.0</string>
 </dict>
 </plist>

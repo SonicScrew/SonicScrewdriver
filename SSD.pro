@@ -22,11 +22,17 @@ VERSION = 2.4.0.0
 INCLUDEPATH += src src/json src/qt src/tor
 INCLUDEPATH += src/tor/adapter src/tor/common src/tor/ext
 INCLUDEPATH += src/tor/ext/curve25519_donna src/tor/or
-QT += core gui network webkit
+QT += core gui network
 CONFIG += no_include_pwd
 CONFIG += thread+
+CONFIG += qt
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += webkit widgets
+greaterThan(QT_MAJOR_VERSION, 4): {
+   QT += widgets webkit webkitwidgets
+   message("Qt 5")
+} else {
+   message("Qt 4")
+}
 
 !macx:CONFIG += static
 
@@ -658,7 +664,7 @@ macx|win32 {
     # LIBS += /usr/local/boost/stage/lib/libboost_thread.a
     # LIBS += /usr/local/boost/stage/lib/libboost_program_options.a
     # custom linux for static
-    LIBS += /usr/lib/x86_64-linux-gnu/libdb_cxx-5.3.a
+    LIBS += /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.a
     LIBS += /usr/lib/libcryptopp.a
 }
 

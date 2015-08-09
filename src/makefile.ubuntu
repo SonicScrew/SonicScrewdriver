@@ -38,13 +38,18 @@
 # Build STATIC for this makefile (1=static, 0=not)
 STATIC=1
 
-# Berkely DB
+# Testing
 DEPSDIR=/usr/local
+
+# Berkely DB
+BDBDIR="/usr/local/BerkeleyDB.4.8/include"
 
 # debian third-party headers
 INC_LINUX="/usr/include/x86_64-linux-gnu"
 # debian third-party libs
 LIB_LINUX="/usr/lib/x86_64-linux-gnu"
+# bdb
+LIB_BDB="/usr/local/BerkeleyDB.4.8/lib"
 
 
 INCLUDEPATHS= \
@@ -56,14 +61,16 @@ INCLUDEPATHS= \
  -I"$(CURDIR)/tor/ext" \
  -I"$(CURDIR)/tor/ext/curve25519_donna" \
  -I"$(CURDIR)/tor/or" \
+ -I"$(BDBDIR)" \
  -I"/usr/include" \
  -I"$(INC_LINUX)" \
  -I"$(CURDIR)/leveldb/include" \
  -I"$(CURDIR)/leveldb/helpers"
 
 LIBPATHS= \
+ -L"$(LIB_BDB)" \
  -L"/usr/lib" \
- -L"$(LIB_LINUX)" \
+ -L"$(LIB_LINUX)"
 
 CFLAGS += $(INCLUDEPATHS)
 
@@ -80,7 +87,7 @@ ifeq ($(STATIC),1)
 TESTLIBS += \
  $(DEPSDIR)/lib/libboost_unit_test_framework.a
 LIBS += \
- /usr/lib/libdb_cxx.a \
+ $(LIB_BDB)/libdb_cxx.a \
  $(LIB_LINUX)/libboost_system.a \
  $(LIB_LINUX)/libboost_filesystem.a \
  $(LIB_LINUX)/libboost_program_options.a \
