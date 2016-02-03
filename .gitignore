@@ -29,3 +29,8 @@ ui_*.h
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+*~
+eraseme*
+hashlist.txt
+Sonicd
