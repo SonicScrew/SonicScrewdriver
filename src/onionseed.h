@@ -4,10 +4,9 @@
 
 // hidden service seeds
 static const char *strMainNetOnionSeed[][1] = {
-    {"jjsgap2t6rhoyawq.onion"},
-    {"r5cdlynyqvzxgetj.onion"},
-    {"vhxye5grqzi6l2ut.onion"},
-    {"zpxqlzw3kkk3vgwe.onion"},
+    {"4cubkmey352kxkbh.onion"},
+    {"czj3ra2s3jwzpyhs.onion"},
+    {"vn4g4t6gwqja5tno.onion"},
 	{NULL}
 };
 
