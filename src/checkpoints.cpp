@@ -93,9 +93,9 @@ namespace Checkpoints
 
     // ppcoin: synchronized checkpoint (centrally broadcasted)
     uint256 hashSyncCheckpoint =
-        uint256("0xf63059a086c23a98b9f74d1fe0531d8d1ba89e5b98a4a2f8b24a10840900c569");
+        uint256("0x0c1d9735d08062e8187e2b8313c566c093d96880f6fe9be3f0c2ea600f38d74");
     uint256 hashPendingCheckpoint =
-        uint256("0xf63059a086c23a98b9f74d1fe0531d8d1ba89e5b98a4a2f8b24a10840900c569");
+        uint256("0x0c1d9735d08062e8187e2b8313c566c093d96880f6fe9be3f0c2ea600f38d74");
     CSyncCheckpoint checkpointMessage;
     CSyncCheckpoint checkpointMessagePending;
     uint256 hashInvalidCheckpoint = 0;
